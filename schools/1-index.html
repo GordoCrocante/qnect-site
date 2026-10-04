@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Qnect Rewind · Retos en equipo para tus estudiantes · Team challenges for your students</title>
+<meta name="description" content="Un reto gratis de 7 días en equipo para 6 de tus estudiantes. A free 7-day team challenge for 6 of your students.">
+<meta property="og:title" content="Estudiantes más motivados, en equipo · Students more motivated, in teams">
+<meta property="og:description" content="Un reto gratis de 7 días en equipo para 6 de tus estudiantes. A free 7-day team challenge for 6 of your students.">
+<style>
+:root{--bg:#FBFAF7;--ink:#1B1B2F;--muted:#5B5B72;--line:#E6E3DA;--accent:#4B3BE8;--soft:#EEECFF;--warm:#FF6B4A}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-weight:800;letter-spacing:.01em}
+.lang{display:flex;gap:6px}
+.lang button{border:1px solid var(--line);background:#fff;color:var(--ink);font:600 14px system-ui;padding:6px 12px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.1;margin:26px 0 14px;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:20px;color:var(--muted);margin:0 0 24px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 8px}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.note{font-size:14px;color:var(--muted)}
+section{padding:34px 0;border-top:1px solid var(--line)}
+h2{font-size:24px;margin:0 0 16px;letter-spacing:-.01em}
+.cards{display:grid;gap:14px}
+@media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.card b{display:block;font-size:18px;margin-bottom:6px}
+.card span{color:var(--muted);font-size:15.5px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.steps li{counter-increment:s;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px 12px 52px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:11px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;text-align:center;line-height:26px}
+.big{background:var(--soft);border-radius:18px;padding:22px}
+.big p{margin:0 0 10px}
+footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:15px}
+html[lang="es"] [data-l="en"],html[lang="en"] [data-l="es"]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div class="brand">Qnect Rewind</div>
+ <div class="lang"><button id="b-es" aria-pressed="true" onclick="setL('es')">ES</button><button id="b-en" aria-pressed="false" onclick="setL('en')">EN</button></div>
+</header>
+
+<main>
+<!-- HERO -->
+<h1 data-l="es">Estudiantes más motivados, <em>en equipo</em>.</h1>
+<h1 data-l="en">Students more motivated, <em>in a team</em>.</h1>
+<p class="lead" data-l="es">Un reto gratis de 7 días para 6 de tus estudiantes. Practican idiomas de verdad, lo pasan bien y traen a sus amigos.</p>
+<p class="lead" data-l="en">A free 7-day challenge for 6 of your students. They practise a language for real, have fun, and bring their friends.</p>
+<div class="btns">
+ <a class="btn" href="mailto:collab@qnectrewind.com?subject=Probar%20un%20reto%20con%20mis%20estudiantes"><span data-l="es">Probémoslo esta semana</span><span data-l="en">Let's try it this week</span></a>
+ <a class="btn alt" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener"><span data-l="es">Apuntar a un equipo</span><span data-l="en">Sign up a team</span></a>
+</div>
+<p class="note" data-l="es">La primera ronda es gratis. Escríbenos a collab@qnectrewind.com.</p>
+<p class="note" data-l="en">The first round is free. Write to collab@qnectrewind.com.</p>
+
+<!-- WHY -->
+<section>
+ <h2 data-l="es">Por qué a tu academia le interesa</h2>
+ <h2 data-l="en">Why it matters for your school</h2>
+ <div class="cards">
+  <div class="card"><b data-l="es">Más motivación</b><b data-l="en">More motivation</b>
+   <span data-l="es">Practicar solo cuesta. En equipo y con una fecha, la práctica ocurre: nadie quiere fallar a su equipo.</span>
+   <span data-l="en">Practising alone is hard. With a team and a deadline, practice happens: nobody wants to let the team down.</span></div>
+  <div class="card"><b data-l="es">Más alumnos</b><b data-l="en">More students</b>
+   <span data-l="es">Quien lo pasa bien y hace amigos lo cuenta y trae a otros. La noche del estreno es un evento listo para compartir.</span>
+   <span data-l="en">People who enjoy it and make friends talk about it and bring others. The premiere night is an event ready to share.</span></div>
+  <div class="card"><b data-l="es">Aprender es divertido</b><b data-l="en">Learning is fun</b>
+   <span data-l="es">Hacen un tráiler sarcástico de culebrón en español, con el móvil. Malo a propósito vale; aburrido no.</span>
+   <span data-l="en">They shoot a sarcastic Spanish drama trailer on their phones. Bad on purpose is fine; boring is not.</span></div>
+ </div>
+</section>
+
+<!-- HOW -->
+<section>
+ <h2 data-l="es">Cómo funciona</h2>
+ <h2 data-l="en">How it works</h2>
+ <ol class="steps" data-l="es">
+  <li><b>Equipo.</b> 6 estudiantes forman un equipo.</li>
+  <li><b>Reto.</b> Hacen un tráiler en español.</li>
+  <li><b>Plazo.</b> 7 días.</li>
+  <li><b>Estreno.</b> Una noche en una azotea de Barcelona: se ven los tráileres y la sala vota.</li>
+ </ol>
+ <ol class="steps" data-l="en">
+  <li><b>Team.</b> 6 students form a team.</li>
+  <li><b>Goal.</b> They make a trailer in Spanish.</li>
+  <li><b>Deadline.</b> 7 days.</li>
+  <li><b>Premiere.</b> One night on a rooftop in Barcelona: the trailers are shown and the room votes.</li>
+ </ol>
+ <p data-l="es"><b>Tu parte es casi nada:</b> eliges a los estudiantes o compartes el enlace, y ya. Nosotros llevamos el reto.</p>
+ <p data-l="en"><b>Your part is almost nothing:</b> pick the students or share the link, that is it. We run the challenge.</p>
+</section>
+
+<!-- PHILOSOPHY -->
+<section>
+ <div class="big">
+  <h2 data-l="es">La idea de fondo</h2>
+  <h2 data-l="en">The bigger idea</h2>
+  <p data-l="es">Un reto es una razón para hablar con un desconocido. Un plazo es una razón para presentarse. Una noche para enseñar lo hecho es una razón para terminarlo. Juntos, hacen que la gente se conozca de verdad y siga quedando.</p>
+  <p data-l="en">A challenge is a reason to talk to a stranger. A deadline is a reason to show up. A night to show what you made is a reason to finish it. Together they make people actually meet and keep meeting.</p>
+  <p data-l="es">Empezamos con idiomas, pero el mismo marco sirve para otros objetivos: aprender, crear, entrenar, cualquier cosa que se haga mejor en equipo.</p>
+  <p data-l="en">We start with languages, but the same frame works for other goals: learning, making, training, anything that works better in a team.</p>
+ </div>
+</section>
+
+<!-- CTA -->
+<section>
+ <h2 data-l="es">¿Probamos con 6 de tus estudiantes?</h2>
+ <h2 data-l="en">Shall we try it with 6 of your students?</h2>
+ <p data-l="es">Es nuestra primera ronda, por eso es gratis. Estamos aprendiendo qué funciona, y tu academia nos ayudaría a verlo.</p>
+ <p data-l="en">This is our first round, which is why it is free. We are learning what works, and your school would help us see it.</p>
+ <div class="btns">
+  <a class="btn" href="mailto:collab@qnectrewind.com?subject=Probar%20un%20reto%20con%20mis%20estudiantes"><span data-l="es">Escríbenos</span><span data-l="en">Write to us</span></a>
+  <a class="btn alt" href="https://snazzy-shortbread-538c98.netlify.app/" target="_blank" rel="noopener"><span data-l="es">Ver el reto</span><span data-l="en">See the challenge</span></a>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div><b>Qnect Rewind</b> · Barcelona · <a href="mailto:collab@qnectrewind.com">collab@qnectrewind.com</a></div>
+ <div data-l="es">Friends Not Fluent es nuestra primera ronda.</div>
+ <div data-l="en">Friends Not Fluent is our first round.</div>
+</footer>
+</div>
+<script>
+function setL(l){
+  document.documentElement.lang=l;
+  document.getElementById('b-es').setAttribute('aria-pressed',l==='es');
+  document.getElementById('b-en').setAttribute('aria-pressed',l==='en');
+  try{history.replaceState(null,'','#'+l)}catch(e){}
+}
+(function(){
+  var h=(location.hash||'').replace('#','');
+  var l=(h==='en'||h==='es')?h:((navigator.language||'es').toLowerCase().indexOf('es')===0?'es':'en');
+  setL(l);
+})();
+</script>
+</body>
+</html>
