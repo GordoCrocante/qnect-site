@@ -1,0 +1,73 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Qnect Rewind · Te retamos</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--ink:#2B2A35;--y:#EDE57A;--m:#74E6CC;--mute:#5E5C6B}
+body{margin:0;min-height:100vh;font-family:"Red Hat Display",system-ui,sans-serif;color:var(--ink);background:radial-gradient(55% 40% at 5% 0,rgba(116,230,204,.45),transparent 70%),radial-gradient(45% 35% at 100% 5%,rgba(237,229,122,.5),transparent 70%),#fff;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;font-weight:900;font-size:19px}
+.lang button{border:0;background:none;font:700 14px inherit;font-family:inherit;color:var(--mute);cursor:pointer;padding:4px 6px}.lang button.on{color:var(--ink);border-bottom:2px solid var(--ink)}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:10px 22px 40px}
+.scr{display:none;max-width:760px;width:100%;text-align:center;animation:in .5s ease}.scr.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1{font-weight:900;letter-spacing:-.045em;line-height:.95;font-size:clamp(54px,12vw,120px);margin:0 0 18px}
+h2{font-weight:900;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,7vw,64px);margin:0 0 12px}
+p{font-size:clamp(17px,2.4vw,22px);color:var(--mute);margin:0 0 22px;line-height:1.35}
+.btn{font:800 20px "Red Hat Display",sans-serif;color:var(--ink);border:2px solid var(--ink);border-radius:99px;padding:15px 34px;background:linear-gradient(100deg,var(--y),var(--m));box-shadow:5px 5px 0 var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn.dark{background:var(--ink);color:#fff;box-shadow:none}
+.lv{display:flex;gap:14px;justify-content:center;align-items:stretch;margin:26px 0;flex-wrap:wrap}
+.card{width:190px;min-height:230px;perspective:800px;cursor:pointer;border:0;background:none;padding:0;font-family:inherit}
+.in{position:relative;width:100%;height:230px;transition:transform .6s;transform-style:preserve-3d}.card.f .in{transform:rotateY(180deg)}
+.fc,.bk{position:absolute;inset:0;border-radius:26px;border:2px solid var(--ink);backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;box-shadow:5px 5px 0 var(--ink)}
+.fc{background:linear-gradient(135deg,var(--y),var(--m))}.fc b{font-size:60px;font-weight:900}.fc span{font-weight:800;font-size:17px}
+.bk{background:#fff;transform:rotateY(180deg)}.bk b{font-size:22px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px}.bk span{font-size:16px;color:var(--mute);line-height:1.3}
+.lock{background:#eef0f4;color:#9a9aa8;border-style:dashed;box-shadow:none}
+.dots{position:relative;height:200px;margin:10px auto 24px;max-width:520px}
+.dots svg{width:100%;height:100%}
+.win{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:22px 0 28px;text-align:left}
+.win div{border-radius:24px;padding:20px 22px;font-size:18px;color:var(--mute)}.win b{display:block;color:var(--ink);font-size:21px;margin-bottom:4px}
+.win div:nth-child(1){background:#FBF8D0}.win div:nth-child(2){background:#DAF4EC}.win div:nth-child(3){background:#EEF0F6}
+.prog{display:flex;gap:6px;justify-content:center;margin-bottom:22px}.prog i{width:34px;height:6px;border-radius:9px;background:#d8dae2}.prog i.on{background:var(--ink)}
+.small{font-size:15px;color:var(--mute);margin-top:18px}
+</style></head><body>
+<div class="top"><span>Qnect Rewind</span><span class="lang"><button id="bes" class="on">ES</button><button id="ben">EN</button></span></div>
+<div class="stage">
+<section class="scr on" id="s0"><h1 data-t="h"></h1><p data-t="sub"></p><button class="btn" id="go" data-t="play"></button><div class="small" data-t="free"></div></section>
+<section class="scr" id="s1"><div class="prog"><i class="on"></i><i></i><i></i></div><h2 data-t="l1"></h2><p data-t="l1p"></p>
+<div class="lv" id="cards"></div><div id="n1" style="display:none"><button class="btn" id="to2" data-t="next"></button></div></section>
+<section class="scr" id="s2"><div class="prog"><i class="on"></i><i class="on"></i><i></i></div><h2 data-t="compete"></h2><p data-t="connect"></p>
+<div class="dots"><svg viewBox="0 0 520 200" id="svg"></svg></div><button class="btn" id="to3" data-t="next"></button></section>
+<section class="scr" id="s3"><div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i></div><h2 data-t="wins"></h2>
+<div class="win"><div><b data-t="w1"></b><span data-t="w1p"></span></div><div><b data-t="w2"></b><span data-t="w2p"></span></div><div><b data-t="w3"></b><span data-t="w3p"></span></div></div>
+<div class="lv"><div class="card"><div class="fc lock" style="position:relative;height:150px;box-shadow:none"><b style="font-size:34px">🔒</b><span data-t="lv2"></span></div></div></div>
+<p data-t="teaser"></p><a class="btn" id="cta" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto" data-t="cta"></a><div class="small">collab@qnectrewind.com</div></section>
+</div>
+<script>
+var T={es:{h:"Te retamos.",sub:"Nivel 1 de una escalada: aprender idiomas. 30 segundos para ver cómo es.",play:"Jugar",free:"Primera ronda gratis",l1:"Nivel 1: Idiomas",l1p:"Toca las 3 cartas.",next:"Siguiente",
+c:[["Equipo","6 personas, una capitana."],["Reto","Un tráiler en español en 7 días."],["Estreno","Una azotea en Barcelona. La sala vota."]],cn:["Equipo","Reto","Estreno"],
+compete:"Compiten.",connect:"Acaban siendo un equipo.",wins:"Lo que gana tu academia",w1:"Más motivación",w1p:"Nadie quiere fallar a su equipo.",w2:"Más alumnos",w2p:"Traen a sus amigos.",w3:"Contenido",w3p:"Tráileres que tu escuela puede compartir.",
+lv2:"Nivel 2 bloqueado",teaser:"Nivel 2 se desbloquea cuando juegues el Nivel 1.",cta:"Acepto el reto"},
+en:{h:"We challenge you.",sub:"Level 1 of a climb: learning languages. 30 seconds to see how it works.",play:"Play",free:"First round free",l1:"Level 1: Languages",l1p:"Tap the 3 cards.",next:"Next",
+c:[["Team","6 people, one captain."],["Challenge","A Spanish trailer in 7 days."],["Premiere","A Barcelona rooftop. The room votes."]],cn:["Team","Challenge","Premiere"],
+compete:"They compete.",connect:"They end up a team.",wins:"What your school wins",w1:"More motivation",w1p:"Nobody wants to let the team down.",w2:"More students",w2p:"They bring their friends.",w3:"Content",w3p:"Trailers your school can share.",
+lv2:"Level 2 locked",teaser:"Level 2 unlocks when you play Level 1.",cta:"I accept the challenge"}};
+var L=(navigator.language||"es").slice(0,2)=="es"?"es":"en";if(location.hash=="#en")L="en";if(location.hash=="#es")L="es";
+var flipped=0;function $(i){return document.getElementById(i)}
+function render(){document.documentElement.lang=L;var t=T[L];document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=t[e.dataset.t]});
+$("bes").className=L=="es"?"on":"";$("ben").className=L=="en"?"on":"";
+var c=$("cards");c.innerHTML="";t.c.forEach(function(x,i){var b=document.createElement("button");b.className="card"+(i<flipped?" f":"");b.dataset.i=i;
+b.innerHTML='<div class="in"><div class="fc"><b>'+(i+1)+'</b><span>'+t.cn[i]+'</span></div><div class="bk"><b>'+x[0]+'</b><span>'+x[1]+'</span></div></div>';
+b.onclick=function(){if(!b.classList.contains("f")){b.classList.add("f");flipped++;if(document.querySelectorAll(".card.f").length==3)$("n1").style.display="block"}};c.appendChild(b)});
+flipped=0;$("n1").style.display="none"}
+function show(n){document.querySelectorAll(".scr").forEach(function(s){s.classList.remove("on")});$("s"+n).classList.add("on");if(n==2)anim()}
+$("bes").onclick=function(){L="es";render()};$("ben").onclick=function(){L="en";render()};
+$("go").onclick=function(){show(1)};$("to2").onclick=function(){show(2)};$("to3").onclick=function(){show(3)};
+function anim(){var s=$("svg");s.innerHTML="";var P=[[60,40],[260,25],[460,40],[60,160],[260,175],[460,160]],ns="http://www.w3.org/2000/svg",dots=[];
+P.forEach(function(p,i){var c=document.createElementNS(ns,"circle");c.setAttribute("cx",i%2?p[0]+30:p[0]-30);c.setAttribute("cy",p[1]);c.setAttribute("r",15);c.setAttribute("fill","#2B2A35");s.appendChild(c);dots.push(c)});
+var t0=null;function f(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/2600);P.forEach(function(p,i){var sx=i%2?p[0]+30:p[0]-30,sh=Math.sin(ts/130+i*2)*(1-k)*10;dots[i].setAttribute("cx",sx+(p[0]-sx)*k+sh);dots[i].setAttribute("fill",k>.8?"url(#g)":"#2B2A35")});
+if(k>=1&&!s.dataset.l){s.dataset.l=1;var d=document.createElementNS(ns,"defs");d.innerHTML='<linearGradient id="g"><stop offset="0" stop-color="#EDE57A"/><stop offset="1" stop-color="#74E6CC"/></linearGradient>';s.appendChild(d);
+[[0,1],[1,2],[3,4],[4,5],[0,3],[1,4],[2,5],[1,3],[1,5]].forEach(function(e){var l=document.createElementNS(ns,"line");l.setAttribute("x1",P[e[0]][0]);l.setAttribute("y1",P[e[0]][1]);l.setAttribute("x2",P[e[1]][0]);l.setAttribute("y2",P[e[1]][1]);l.setAttribute("stroke","#2B2A35");l.setAttribute("stroke-width","3");s.insertBefore(l,s.firstChild)});
+dots.forEach(function(c){c.setAttribute("fill","#74E6CC");c.setAttribute("stroke","#2B2A35");c.setAttribute("stroke-width","3")})}
+if(k<1||!s.dataset.l)requestAnimationFrame(f)}requestAnimationFrame(f)}
+render();
+</script></body></html>
