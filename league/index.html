@@ -1,0 +1,108 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Premier Friends Not Fluent · Te retamos</title>
+<meta name="description" content="La liga donde haces amigos, no fluidez. Seis desconocidos. Siete días. Un tráiler. ¿Aceptas?">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bk:#0A0A0F;--ink:#2B2A35;--y:#EDE57A;--m:#74E6CC;--w:#fff;--g:#9B9BAA}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bk);color:var(--w);font-family:"Red Hat Display",system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:linear-gradient(#0A0A0Fcc,transparent);font-weight:900}
+.nav .r{display:flex;gap:12px;align-items:center}.nav button{background:none;border:0;color:var(--g);font:700 14px "Red Hat Display";cursor:pointer}.nav button.on{color:#fff;border-bottom:2px solid #fff}
+.btn{display:inline-block;font:900 clamp(18px,3vw,24px) "Red Hat Display";color:var(--bk);background:linear-gradient(100deg,var(--y),var(--m));border-radius:99px;padding:18px 38px;text-decoration:none;border:0;cursor:pointer;box-shadow:0 0 0 0 #74E6CC66;animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #74E6CC88}70%{box-shadow:0 0 0 22px #74E6CC00}100%{box-shadow:0 0 0 0 #74E6CC00}}
+.btn.ghost{background:none;color:#fff;border:2px solid #fff;animation:none}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:90px 24px 50px;text-align:center;position:relative;background:radial-gradient(70% 50% at 50% 100%,#74E6CC33,transparent 70%),radial-gradient(50% 40% at 90% 0,#EDE57A22,transparent 70%)}
+.l{font-weight:900;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,8vw,84px);opacity:0;transform:translateY(16px);animation:up .8s forwards}
+.l:nth-child(1){animation-delay:.3s}.l:nth-child(2){animation-delay:1.3s}.l:nth-child(3){animation-delay:2.3s}
+.t{opacity:0;animation:up 1s 3.5s forwards;margin-top:34px}
+.t h1{margin:0;font-weight:900;letter-spacing:-.05em;line-height:.9;font-size:clamp(46px,12vw,150px);background:linear-gradient(100deg,var(--y),var(--m));-webkit-background-clip:text;background-clip:text;color:transparent}
+.t p{font-size:clamp(18px,2.6vw,28px);color:#d8d8e2;margin:18px 0 28px}
+.t .bts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+@keyframes up{to{opacity:1;transform:none}}
+section{padding:80px 22px;max-width:1100px;margin:0 auto}
+h2{font-weight:900;letter-spacing:-.04em;line-height:.95;font-size:clamp(38px,8vw,88px);margin:0 0 10px}
+.sub{color:var(--g);font-size:clamp(17px,2.2vw,22px);margin:0 0 36px;max-width:640px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.c{border:2px solid #34343f;border-radius:28px;padding:26px;background:#12121a;position:relative;transition:.25s}
+.c:hover{border-color:var(--m);transform:translateY(-4px)}
+.c .k{font-weight:900;font-size:13px;letter-spacing:.2em;color:var(--m);margin-bottom:10px}
+.c b{display:block;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.03em;line-height:1.02;margin-bottom:8px}
+.c span{color:#c9c9d6;font-size:18px;line-height:1.35}
+.c.big{grid-column:1/-1;background:linear-gradient(120deg,#EDE57A,#74E6CC);color:var(--bk);border:0}
+.c.big .k{color:var(--bk)}.c.big span{color:#1b1b22}.c.big b{font-size:clamp(34px,6vw,64px)}
+.rules{counter-reset:r;display:grid;gap:10px}
+.rules div{display:flex;gap:16px;align-items:center;border-radius:22px;background:#12121a;border:2px solid #34343f;padding:18px 22px;font-size:clamp(19px,2.6vw,26px);font-weight:700}
+.rules div:before{counter-increment:r;content:counter(r);font-weight:900;font-size:34px;min-width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--y),var(--m));color:var(--bk);display:flex;align-items:center;justify-content:center;font-size:22px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.vs{grid-template-columns:1fr}}
+.w,.lz{border-radius:28px;padding:28px}.w{background:linear-gradient(135deg,#EDE57A,#74E6CC);color:var(--bk)}.lz{background:#12121a;border:2px dashed #55556a}
+.w .k,.lz .k{font-weight:900;letter-spacing:.2em;font-size:13px;margin-bottom:8px}.w b,.lz b{font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;line-height:1;display:block;margin-bottom:10px}.w span,.lz span{font-size:19px;line-height:1.35}
+.tab{border:2px solid #34343f;border-radius:28px;overflow:hidden}.tab div{display:grid;grid-template-columns:50px 1fr auto;gap:12px;padding:16px 22px;border-bottom:1px solid #26262f;font-size:20px;font-weight:700;align-items:center}
+.tab div:last-child{border:0}.tab i{font-style:normal;color:var(--g)}.tab .me{background:linear-gradient(100deg,#EDE57A22,#74E6CC22)}.tab .me i{color:var(--m)}
+.cta{text-align:center;padding:90px 22px 60px;background:radial-gradient(60% 60% at 50% 100%,#74E6CC33,transparent 70%)}
+.cta h2{font-size:clamp(44px,11vw,130px)}.cta .bts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.how{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:26px 0 8px;color:#d8d8e2;font-size:18px}.how span{border:2px solid #34343f;border-radius:99px;padding:10px 18px}
+footer{text-align:center;color:var(--g);padding:20px 22px 50px;font-size:15px}
+.rev{opacity:0;transform:translateY(24px);transition:.7s}.rev.in{opacity:1;transform:none}
+</style></head><body>
+<div class="nav"><span>Premier Friends Not Fluent</span><span class="r"><button id="bes" class="on">ES</button><button id="ben">EN</button></span></div>
+<header class="hero"><div class="l" data-t="a1"></div><div class="l" data-t="a2"></div><div class="l" data-t="a3"></div>
+<div class="t"><h1>PREMIER<br>FRIENDS<br>NOT FLUENT</h1><p data-t="tag"></p><div class="bts"><a class="btn" data-form data-t="join"></a><a class="btn ghost" href="#reglas" data-t="rules"></a></div></div></header>
+
+<section id="reglas"><h2 class="rev" data-t="h_game"></h2><p class="sub rev" data-t="s_game"></p>
+<div class="grid">
+<div class="c big rev"><div class="k" data-t="k_dare"></div><b data-t="dare"></b><span data-t="dare_p"></span></div>
+<div class="c rev"><div class="k" data-t="k_team"></div><b data-t="team"></b><span data-t="team_p"></span></div>
+<div class="c rev"><div class="k" data-t="k_clock"></div><b data-t="clock"></b><span data-t="clock_p"></span></div>
+<div class="c rev"><div class="k" data-t="k_mission"></div><b data-t="mission"></b><span data-t="mission_p"></span></div>
+<div class="c rev"><div class="k" data-t="k_judge"></div><b data-t="judge"></b><span data-t="judge_p"></span></div></div></section>
+
+<section><h2 class="rev" data-t="h_rules"></h2><div class="rules"><div class="rev" data-t="r1"></div><div class="rev" data-t="r2"></div><div class="rev" data-t="r3"></div><div class="rev" data-t="r4"></div></div></section>
+
+<section><h2 class="rev" data-t="h_vs"></h2><div class="vs">
+<div class="w rev"><div class="k" data-t="k_win"></div><b data-t="win"></b><span data-t="win_p"></span></div>
+<div class="lz rev"><div class="k" data-t="k_lose"></div><b data-t="lose"></b><span data-t="lose_p"></span></div></div></section>
+
+<section><h2 class="rev" data-t="h_tab"></h2><p class="sub rev" data-t="s_tab"></p>
+<div class="tab rev"><div><i>1</i><span>— — —</span><i data-t="free"></i></div><div><i>2</i><span>— — —</span><i data-t="free"></i></div><div><i>3</i><span>— — —</span><i data-t="free"></i></div><div class="me"><i>?</i><span data-t="you"></span><i data-t="soon"></i></div></div></section>
+
+<div class="cta"><h2 class="rev" data-t="h_cta"></h2><p class="sub rev" style="margin:0 auto" data-t="s_cta"></p>
+<div class="how rev"><span data-t="how1"></span><span data-t="how2"></span><span data-t="how3"></span></div>
+<div class="bts rev"><a class="btn" data-form data-t="join"></a><a class="btn ghost" id="wa" target="_blank" rel="noopener" data-t="share"></a></div></div>
+<footer><span data-t="foot"></span> · collab@qnectrewind.com</footer>
+<script>
+var FORM="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform";
+var T={es:{a1:"Seis desconocidos.",a2:"Siete días.",a3:"Una misión.",tag:"La liga donde haces amigos, no fluidez. Si ganas: campeones. Si pierdes: entregas el trofeo.",join:"Acepto el reto",rules:"Ver las reglas",
+h_game:"El juego.",s_game:"Un torneo de equipos. Se gana creando algo juntos, no estudiando solo.",
+k_dare:"EL RETO",dare:"Te retamos a que tu equipo no lo consigue.",dare_p:"Hacer un tráiler corto, en español, con gente que no conocías, en 7 días. Casi nadie lo consigue a la primera.",
+k_team:"EL EQUIPO",team:"6 jugadores. 1 capitán.",team_p:"Entras con amigos o te asignamos equipo. Nadie juega solo.",
+k_clock:"EL RELOJ",clock:"7 días.",clock_p:"Empieza el día 1. Se acaba el día 7. Sin prórroga.",
+k_mission:"LA MISIÓN",mission:"1 tráiler.",mission_p:"Corto, en español, hecho entre los 6. Con el móvil vale.",
+k_judge:"EL JURADO",judge:"La sala vota.",judge_p:"Los tráilers se estrenan en una noche, en una azotea de Barcelona. Vota el público.",
+h_rules:"Las reglas.",r1:"Equipo de 6 con un capitán.",r2:"Todo el equipo sale en el tráiler.",r3:"El tráiler se habla en español. Con fallos también.",r4:"Se entrega el día 7. Lo que no llega, no compite.",
+h_vs:"Ganar o perder.",k_win:"SI GANAS",win:"Eres campeón de la liga.",win_p:"Tu equipo abre la noche del estreno, se lleva el trofeo y pasa directo a la siguiente temporada.",
+k_lose:"SI PIERDES",lose:"Entregas el trofeo.",lose_p:"Sales a aplaudir a los campeones, de pie, delante de todos. Y te llevas amigos nuevos igual.",
+h_tab:"La tabla.",s_tab:"Los primeros puestos están libres. Todavía no hay nadie.",free:"libre",you:"Tu equipo",soon:"entra ahora",
+h_cta:"¿A que no puedes?",s_cta:"El capitán apunta al equipo en un minuto.",how1:"1. Toca el botón",how2:"2. Apunta tu equipo",how3:"3. Te escribimos con el reto",share:"Reta a un amigo",foot:"Premier Friends Not Fluent · by Qnect Rewind"},
+en:{a1:"Six strangers.",a2:"Seven days.",a3:"One mission.",tag:"The league where you make friends, not fluency. Win: champions. Lose: you hand over the trophy.",join:"I accept the challenge",rules:"See the rules",
+h_game:"The game.",s_game:"A team tournament. You win by making something together, not by studying alone.",
+k_dare:"THE DARE",dare:"We bet your team can't pull it off.",dare_p:"Make a short trailer, in Spanish, with people you didn't know, in 7 days. Almost nobody nails it first time.",
+k_team:"THE TEAM",team:"6 players. 1 captain.",team_p:"Come with friends or we place you in a team. Nobody plays alone.",
+k_clock:"THE CLOCK",clock:"7 days.",clock_p:"Starts day 1. Ends day 7. No extensions.",
+k_mission:"THE MISSION",mission:"1 trailer.",mission_p:"Short, in Spanish, made by the 6 of you. A phone is enough.",
+k_judge:"THE JURY",judge:"The room votes.",judge_p:"The trailers premiere on one night, on a Barcelona rooftop. The audience votes.",
+h_rules:"The rules.",r1:"Team of 6 with a captain.",r2:"Everyone in the team is in the trailer.",r3:"The trailer is in Spanish. Mistakes included.",r4:"Deliver on day 7. Late trailers don't compete.",
+h_vs:"Win or lose.",k_win:"IF YOU WIN",win:"You're league champions.",win_p:"Your team opens the premiere night, takes the trophy and goes straight into the next season.",
+k_lose:"IF YOU LOSE",lose:"You hand over the trophy.",lose_p:"You stand and applaud the champions in front of everyone. And you still leave with new friends.",
+h_tab:"The table.",s_tab:"The top spots are free. Nobody is on it yet.",free:"free",you:"Your team",soon:"enter now",
+h_cta:"Bet you can't.",s_cta:"The captain signs the team up in one minute.",how1:"1. Tap the button",how2:"2. Sign up your team",how3:"3. We message you the challenge",share:"Dare a friend",foot:"Premier Friends Not Fluent · by Qnect Rewind"}};
+var L=(navigator.language||"es").slice(0,2)=="en"?"en":"es";if(location.hash=="#en")L="en";if(location.hash=="#es")L="es";
+function R(){var t=T[L];document.documentElement.lang=L;document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=t[e.dataset.t]});
+document.getElementById("bes").className=L=="es"?"on":"";document.getElementById("ben").className=L=="en"?"on":"";
+document.querySelectorAll("[data-form]").forEach(function(a){a.href=FORM;a.target="_blank";a.rel="noopener"});
+var u=location.origin+location.pathname;var msg=L=="es"?"Me han retado: Premier Friends Not Fluent. 6 personas, 7 días, 1 tráiler. ¿A que no puedes? "+u:"I've been dared: Premier Friends Not Fluent. 6 people, 7 days, 1 trailer. Bet you can't? "+u;
+document.getElementById("wa").href="https://wa.me/?text="+encodeURIComponent(msg)}
+document.getElementById("bes").onclick=function(){L="es";R()};document.getElementById("ben").onclick=function(){L="en";R()};R();
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in")})},{threshold:.15});document.querySelectorAll(".rev").forEach(function(e){io.observe(e)});
+</script></body></html>
