@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Friends Not Fluent</title>
+<meta name="description" content="Qnect Rewind puts strangers into small teams around one challenge. Round 1: shoot a sarcastic Spanish drama trailer on your phone in 7 days, premiere on a Barcelona rooftop. Free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Barlow:wght@400;500;600;800&display=swap">
+<style>
+/* Layout: one dark arcade screen, poster hero, then level-select tiles. Single theme on purpose: this is a lit screen at night. */
+:root{
+  --bg:#0B0A1C; --bg2:#15123A; --panel:#1B1848; --line:#2F2A6B;
+  --ink:#FFF8E7; --muted:#B9B3DB;
+  --pink:#FF3D8A; --cyan:#2EE6FF; --yellow:#FFD23F; --orange:#FF7A1A; --green:#3DFF8F; --purple:#8A5CFF;
+  --pix:'Silkscreen',ui-monospace,monospace; --body:'Barlow',system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--pix);font-weight:700;line-height:1.05;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:clamp(2rem,9vw,5.2rem);text-transform:uppercase}
+h2{font-size:clamp(1.25rem,4.5vw,2.1rem);text-transform:uppercase}
+h3{font-size:1rem;text-transform:uppercase}
+p{margin:0}
+.wrap{max-width:1040px;margin-inline:auto;padding-inline:16px}
+.measure{max-width:60ch}
+.lbl{font-family:var(--pix);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.big{font-size:clamp(1.15rem,2.4vw,1.45rem);font-weight:500;line-height:1.4}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--pix);font-weight:700;font-size:.9rem;text-transform:uppercase;text-decoration:none;color:#140A18;background:var(--pink);padding:16px 20px;border:0;box-shadow:5px 5px 0 var(--ink);cursor:pointer;line-height:1;text-align:center}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn.alt{background:var(--bg);color:var(--ink);box-shadow:5px 5px 0 var(--cyan);border:3px solid var(--cyan)}
+.btn.alt:hover{box-shadow:6px 6px 0 var(--cyan)}
+.btn.yel{background:var(--yellow)}
+.btn.wide{width:100%}
+@media (prefers-reduced-motion: reduce){.btn,.btn:hover,.btn:active{transform:none}}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:3px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding-block:8px;flex-wrap:wrap}
+.logo{font-family:var(--pix);font-weight:700;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.logo b{color:var(--pink)}
+.logo i{display:inline-block;width:10px;height:10px;background:var(--cyan);box-shadow:-14px 0 0 var(--pink),14px 0 0 var(--yellow)}
+.nav{display:flex;gap:4px 16px;flex-wrap:wrap}
+.nav a{font-family:var(--pix);font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--muted);padding-block:6px}
+.nav a:hover{color:var(--ink)}
+.nav a.hot{color:var(--yellow)}
+@media (max-width:520px){.nav a:nth-child(-n+2){display:none}.nav{gap:4px 12px}}
+
+/* sections */
+section{padding-block:clamp(52px,9vw,110px);border-top:3px solid var(--line)}
+.kicker{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);margin-bottom:18px}
+.kicker::before{content:"";width:10px;height:10px;background:currentColor}
+.blink{animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.blink{animation:none}}
+
+/* hero poster */
+.hero{border-top:0;padding-block:clamp(28px,6vw,64px) 0}
+.poster{position:relative;background:var(--bg2);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--pink);padding:clamp(20px,4vw,40px) clamp(16px,4vw,40px) 0;overflow:hidden}
+.poster::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 2px,transparent 2px 4px);mix-blend-mode:multiply}
+.poster .presents{color:var(--yellow);display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center}
+.pill{background:var(--yellow);color:#140A18;padding:5px 8px;display:inline-flex;align-items:center;gap:8px}
+.pill i{width:8px;height:8px;background:#140A18;display:inline-block}
+.poster h1{margin-top:14px;color:var(--ink);text-shadow:4px 4px 0 var(--pink),8px 8px 0 var(--purple)}
+.poster .tag{margin-top:22px;max-width:46ch}
+.poster .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;position:relative;z-index:2}
+.scene{display:block;width:100%;height:auto;max-height:min(60vw,460px);object-fit:cover;object-position:center bottom;margin-top:28px;image-rendering:pixelated;image-rendering:crisp-edges;border-top:4px solid var(--ink)}
+.marquee{margin-top:0;background:var(--yellow);color:#140A18;border:4px solid var(--ink);border-top:0;overflow:hidden;white-space:nowrap;font-family:var(--pix);font-size:.78rem;text-transform:uppercase;padding-block:10px}
+.marquee span{display:inline-block;padding-left:100%;animation:scroll 28s linear infinite}
+@keyframes scroll{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion: reduce){.marquee span{animation:none;padding-left:16px;white-space:normal}}
+.hero .in30{margin-top:34px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.hero .in30 > div{border-left:4px solid var(--cyan);padding:4px 0 4px 14px}
+.hero .in30 .lbl{color:var(--cyan)}
+.hero .in30 p{font-weight:600;font-size:1.05rem;margin-top:4px}
+@media (max-width:640px){.hero .in30{grid-template-columns:1fr}}
+
+/* bubble */
+.bubble-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:start;margin-top:28px}
+@media (max-width:760px){.bubble-grid{grid-template-columns:1fr}}
+.bubble{border:4px solid var(--line);padding:22px;position:relative}
+.bubble .lbl{color:var(--pink)}
+.bubble ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.bubble li{display:flex;gap:12px;align-items:flex-start}
+.bubble li::before{content:"";flex:none;width:12px;height:12px;background:var(--pink);margin-top:7px}
+.bubble li.ok::before{background:var(--green)}
+.exit{margin-top:24px;background:var(--panel);border:4px solid var(--green);padding:20px 22px;box-shadow:6px 6px 0 var(--green)}
+.exit .lbl{color:var(--green)}
+
+/* level select */
+.levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:30px}
+@media (max-width:900px){.levels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.levels{grid-template-columns:1fr}}
+.lvl{background:var(--panel);border:4px solid var(--ink);padding:18px 18px 20px;min-width:0;position:relative;box-shadow:6px 6px 0 var(--c)}
+.lvl .n{font-family:var(--pix);font-size:.7rem;color:var(--c)}
+.lvl h3{margin-top:8px;font-size:1.3rem;color:var(--c)}
+.lvl .v{font-family:var(--pix);font-size:.75rem;margin-top:10px;color:var(--ink)}
+.lvl p{margin-top:10px;color:var(--muted);font-size:.98rem}
+.lvl .pxl{position:absolute;top:12px;right:12px;width:18px;height:18px;background:var(--c);box-shadow:-24px 0 0 var(--c),0 24px 0 var(--c)}
+
+/* round 1 */
+.r1{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px;align-items:start}
+@media (max-width:760px){.r1{grid-template-columns:1fr}}
+.card{background:var(--panel);border:4px solid var(--ink);padding:22px}
+.card.pink{box-shadow:8px 8px 0 var(--pink)}
+.card.cyan{box-shadow:8px 8px 0 var(--cyan)}
+.card.yel{box-shadow:8px 8px 0 var(--yellow)}
+.brief{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.brief li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.brief .lbl{color:var(--yellow);min-width:84px}
+.free{font-family:var(--pix);font-size:clamp(2.2rem,7vw,3.6rem);color:var(--green);line-height:1}
+.free small{display:block;font-size:.8rem;color:var(--muted);margin-top:8px}
+
+/* who */
+.who{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px}
+@media (max-width:640px){.who{grid-template-columns:1fr}}
+.who article{border:4px solid var(--line);padding:20px;min-width:0}
+.who .lbl{color:var(--cyan)}
+.who h3{margin-top:8px;font-size:1.15rem;font-family:var(--body);font-weight:800;text-transform:none;line-height:1.25}
+.who p{margin-top:10px;color:var(--muted);font-size:.98rem}
+.who .later{margin-top:12px;font-family:var(--pix);font-size:.66rem;color:var(--yellow)}
+
+/* premiere */
+.fest{position:relative;background:linear-gradient(180deg,var(--bg2),#2A1A5E);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--cyan);padding:clamp(22px,4vw,40px);margin-top:28px;overflow:hidden}
+.fest::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px)}
+.fest h3{font-size:clamp(1.4rem,5.5vw,2.6rem);color:var(--yellow);text-shadow:3px 3px 0 var(--pink)}
+.fest .where{margin-top:14px;display:flex;gap:10px 22px;flex-wrap:wrap;color:var(--cyan)}
+.fest .where span b{color:var(--ink)}
+.run{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:26px;position:relative;z-index:1}
+@media (max-width:760px){.run{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.run > div{border:3px solid var(--line);background:rgba(11,10,28,.6);padding:14px;min-width:0}
+.run .lbl{color:var(--pink)}
+.run p{margin-top:6px;font-size:.95rem}
+.fest .fine{margin-top:22px;color:var(--muted);font-size:.95rem;position:relative;z-index:1}
+
+/* signup */
+.signup{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px;align-items:start}
+@media (max-width:760px){.signup{grid-template-columns:1fr}}
+.asks{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;color:var(--muted)}
+.asks li{display:flex;gap:10px;align-items:baseline}
+.asks li::before{content:"\25A0";color:var(--cyan);font-size:.7rem}
+
+/* contact + footer */
+.contact{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.contact code{font-family:var(--pix);font-size:.9rem;color:var(--yellow);user-select:all;word-break:break-all}
+.copy{font-family:var(--pix);font-size:.66rem;text-transform:uppercase;background:transparent;color:var(--muted);border:3px solid var(--line);padding:8px 10px;cursor:pointer}
+.copy:hover{color:var(--ink);border-color:var(--ink)}
+footer{border-top:3px solid var(--line);padding-block:28px 44px;color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer .lbl{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i> QNECT <b>REWIND</b></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#bubble">The bubble</a>
+      <a href="#how">How it works</a>
+      <a href="#round1">Round 1</a>
+      <a href="#premiere">Premiere</a>
+      <a href="#signup" class="hot">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <article class="poster">
+        <div class="presents lbl"><span>Qnect Rewind presents</span><span class="pill"><i class="blink"></i>Round 1 · Free</span><span>Barcelona</span></div>
+        <h1>Friends<br>Not Fluent</h1>
+        <p class="tag big">Strangers become a team. The team shoots a sarcastic Spanish drama trailer on their phones in 7 days. Everyone meets on a rooftop to watch them.</p>
+        <div class="cta">
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener">Sign up your team</a>
+          <a class="btn alt" href="#how">How it works</a>
+        </div>
+        <canvas class="scene" id="scene" width="160" height="90" aria-label="Pixel art: a rooftop in Barcelona at night, a crowd watching a trailer on a projector screen under string lights"></canvas>
+      </article>
+      <div class="marquee" aria-hidden="true"><span>Insert coin · No coin needed · Round 1 is free · Teams of 3 to 6 · Any level of Spanish · Shot on phones · 7 days · Premiere on a rooftop · Bad Spanish Film Festival · Barcelona · Insert coin · No coin needed · Round 1 is free · Teams of 3 to 6 · Any level of Spanish · Shot on phones · 7 days · Premiere on a rooftop</span></div>
+
+      <div class="in30">
+        <div><div class="lbl">What</div><p>A 7-day challenge with strangers who become your team.</p></div>
+        <div><div class="lbl">Why</div><p>A challenge is a reason to talk. A deadline is a reason to show up.</p></div>
+        <div><div class="lbl">Who</div><p>Anyone in Barcelona learning Spanish, A1 to C1+. Round 1 is free.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUBBLE -->
+  <section id="bubble">
+    <div class="wrap">
+      <div class="kicker lbl">Player 1 · The bubble</div>
+      <h2 class="measure">You moved to a new city. The city did not move to you.</h2>
+      <div class="bubble-grid">
+        <div>
+          <p class="big measure">Everyone arrives with plans: locals, language, a life here. Months later the friends are still from home, the Spanish still stops at the coffee order, and the city is a backdrop you commute through.</p>
+          <p class="measure muted" style="margin-top:16px">Nobody chooses the bubble. It is just comfortable, and it has no exit. Apps for meeting people make it worse: more screens, more swiping, nobody shows up.</p>
+          <div class="exit">
+            <div class="lbl">Our exit</div>
+            <p class="big" style="margin-top:8px">Put strangers in a small team. Give them one real thing to make, a deadline, and a night where everyone shows what they made. Friendship is the side effect.</p>
+          </div>
+        </div>
+        <aside class="bubble">
+          <div class="lbl">Status screen</div>
+          <ul>
+            <li>Friends from your country: many</li>
+            <li>Friends from here: loading</li>
+            <li>Spanish level on paper: B1</li>
+            <li>Spanish level at a party: A0</li>
+            <li class="ok">Reason to talk to a stranger this week: 1, if you sign up</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how">
+    <div class="wrap">
+      <div class="kicker lbl">Level select · How a challenge works</div>
+      <h2 class="measure">Four levels. Every challenge has the same four.</h2>
+      <div class="levels">
+        <article class="lvl" style="--c:var(--pink)"><span class="pxl"></span>
+          <div class="n">Level 1</div><h3>Team</h3>
+          <div class="v">3 to 6 strangers</div>
+          <p>Come alone or with friends. We build the teams. Mixed levels on purpose: the A1 gets dragged along, the C1 learns to shut up and film.</p>
+        </article>
+        <article class="lvl" style="--c:var(--cyan)"><span class="pxl"></span>
+          <div class="n">Level 2</div><h3>Goal</h3>
+          <div class="v">Make one real thing</div>
+          <p>Something you can show a room. In Round 1: a sarcastic Spanish drama trailer. Shot on your phones. Bad on purpose is fine. Boring is not.</p>
+        </article>
+        <article class="lvl" style="--c:var(--yellow)"><span class="pxl"></span>
+          <div class="n">Level 3</div><h3>Deadline</h3>
+          <div class="v">7 days</div>
+          <p>One week. Enough to argue, plan, shoot and panic. The deadline is what makes six strangers actually meet up on a Tuesday.</p>
+        </article>
+        <article class="lvl" style="--c:var(--green)"><span class="pxl"></span>
+          <div class="n">Level 4</div><h3>Premiere</h3>
+          <div class="v">One night, one rooftop</div>
+          <p>Every team shows what they made in front of everyone. The room votes. The prize is the story you tell afterwards.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROUND 1 -->
+  <section id="round1">
+    <div class="wrap">
+      <div class="kicker lbl">Now playing · Round 1</div>
+      <h2 class="measure">Round 1 is free. It creates the proof.</h2>
+      <div class="r1">
+        <article class="card pink">
+          <div class="lbl" style="color:var(--pink)">The brief</div>
+          <ul class="brief">
+            <li><span class="lbl">Make</span><span>A sarcastic Spanish drama trailer. Think telenovela, think too much slow motion, think a dramatic look over the shoulder on the Rambla.</span></li>
+            <li><span class="lbl">Gear</span><span>Your phones. Nothing else.</span></li>
+            <li><span class="lbl">Language</span><span>Spanish. Any level from A1 to C1+. Subtitles welcome, accents celebrated.</span></li>
+            <li><span class="lbl">Time</span><span>7 days from the moment your team is complete.</span></li>
+            <li><span class="lbl">Show</span><span>At the Bad Spanish Film Festival, on the Haaus rooftop in Barcelona.</span></li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <div class="free">0 EUR<small>Round 1 entry fee. No coin, no catch.</small></div>
+          <p class="muted" style="margin-top:18px">We are testing one thing: do strangers who make something together keep meeting after the premiere? Round 1 answers that. You get a team, a week you will talk about, and a trailer nobody will ever forget, however much they try.</p>
+          <a class="btn yel wide" style="margin-top:22px" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener">Sign up for Round 1</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO -->
+  <section id="who">
+    <div class="wrap">
+      <div class="kicker lbl">Choose your character · Who it's for</div>
+      <h2 class="measure">Learners first. Then everyone who wants their people in one room.</h2>
+      <div class="who">
+        <article>
+          <div class="lbl">Learners</div>
+          <h3>You want real Spanish and real people, and you are tired of apps for both.</h3>
+          <p>Sign up alone or with friends. You get a team, a brief and a deadline. Your Spanish gets used in anger, on camera, with people who are as nervous as you.</p>
+        </article>
+        <article>
+          <div class="lbl">Communities</div>
+          <h3>Colivings, residences, exchange groups, expat circles.</h3>
+          <p>Your WhatsApp group has hundreds of members and a handful of friendships. Send your people to a challenge and watch them come back as teams.</p>
+        </article>
+        <article>
+          <div class="lbl">Schools</div>
+          <h3>A week of Spanish your students will actually do outside class.</h3>
+          <p>A private challenge for your students, your brand on the poster, a premiere night your school hosts. The homework is a trailer.</p>
+          <div class="later">Later rounds · about 150 to 300 EUR per run</div>
+        </article>
+        <article>
+          <div class="lbl">Sponsors</div>
+          <h3>Be on the rooftop the night it happens.</h3>
+          <p>Bars, studios and brands for people who just arrived in the city. Put the prize on the table or your name on the screen between trailers.</p>
+          <div class="later">Later rounds · talk to us</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREMIERE -->
+  <section id="premiere">
+    <div class="wrap">
+      <div class="kicker lbl">Final level · The premiere event</div>
+      <h2 class="measure">One rooftop. Every trailer. The whole room votes.</h2>
+      <article class="fest">
+        <div class="lbl" style="color:var(--cyan);position:relative;z-index:1">Qnect Rewind presents</div>
+        <h3 style="position:relative;z-index:1">The Bad Spanish Film Festival</h3>
+        <div class="where lbl" style="position:relative;z-index:1">
+          <span>Where · <b>Haaus rooftop, Barcelona</b></span>
+          <span>When · <b>Date TBD</b></span>
+          <span>Press · <b>TBD</b></span>
+        </div>
+        <div class="run">
+          <div><div class="lbl">1 · Doors</div><p>Teams arrive, meet the other teams, pretend they are not nervous.</p></div>
+          <div><div class="lbl">2 · Screening</div><p>Every trailer on the big screen, projector and all. Yes, yours too.</p></div>
+          <div><div class="lbl">3 · The vote</div><p>The whole rooftop votes. Worst acting, best drama, most Spanish, most Barcelona.</p></div>
+          <div><div class="lbl">4 · Awards</div><p>Prizes worth nothing. Stories worth a lot. Then the night keeps going.</p></div>
+        </div>
+        <p class="fine">The date is set once the teams are complete. Everyone who signs up hears first.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- SIGN UP -->
+  <section id="signup">
+    <div class="wrap">
+      <div class="kicker lbl">Press start · Sign up</div>
+      <h2 class="measure">Sign up your team. Or sign up alone and get one.</h2>
+      <div class="signup">
+        <div>
+          <p class="big measure">Teams are 3 to 6 people. Come with friends, or come alone and we put you with strangers. That second option is the whole point.</p>
+          <a class="btn wide" style="margin-top:24px" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener">Open the sign-up form</a>
+          <p class="muted" style="margin-top:12px;font-size:.92rem">Opens a Google Form. Two minutes.</p>
+        </div>
+        <aside class="card yel">
+          <div class="lbl" style="color:var(--yellow)">The form asks for</div>
+          <ul class="asks">
+            <li>Team name (invent one, it can be terrible)</li>
+            <li>Number of players, 3 to 6</li>
+            <li>Captain's name, WhatsApp and email</li>
+            <li>Spanish level, A1 to C1+</li>
+            <li>Your area of Barcelona</li>
+            <li>Evenings or weekends</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="kicker lbl">Contact</div>
+      <h2 class="measure">Schools, communities, sponsors, press, lost teams.</h2>
+      <div class="contact">
+        <code id="email">collab@qnectrewind.com</code>
+        <button class="copy" type="button" id="copy">Copy</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><span class="lbl">Qnect Rewind</span> · Barcelona · Friends Not Fluent is Round 1.</div>
+    <div>Strangers, a team, a deadline, a rooftop.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* Pixel scene: the premiere night on the rooftop, drawn at 160x90 and scaled up crisp. */
+  function drawScene(c){
+    const W = c.width, H = c.height, x = c.getContext('2d');
+    let s = 20260927; const rnd = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    const R = (px, py, w, h, col) => { x.fillStyle = col; x.fillRect(px, py, w, h); };
+    const sky = x.createLinearGradient(0, 0, 0, 62); sky.addColorStop(0, '#0B0A1C'); sky.addColorStop(1, '#2A1A5E');
+    x.fillStyle = sky; x.fillRect(0, 0, W, H);
+    for (let i = 0; i < 90; i++) { x.globalAlpha = .35 + rnd() * .65; R(Math.floor(rnd() * W), Math.floor(rnd() * 48), 1, 1, '#FFF8E7'); }
+    x.globalAlpha = 1;
+    R(137, 9, 8, 10, '#FFD23F'); R(135, 11, 12, 6, '#FFD23F'); R(139, 11, 3, 3, '#E8B82F');
+    // skyline
+    let bx = 0;
+    while (bx < W) {
+      const bw = 7 + Math.floor(rnd() * 9), bh = 10 + Math.floor(rnd() * 22), by = 62 - bh;
+      R(bx, by, bw, bh, '#120F2E');
+      for (let wy = by + 2; wy < 59; wy += 3) for (let wx = bx + 1; wx < bx + bw - 1; wx += 3) if (rnd() < .22) R(wx, wy, 1, 1, rnd() < .8 ? '#FFD23F' : '#2EE6FF');
+      bx += bw + 1;
+    }
+    // Sagrada-style spires
+    [[112, 26], [118, 20], [124, 23], [130, 29]].forEach(([tx, ty]) => { R(tx, ty + 10, 5, 62 - ty - 10, '#120F2E'); R(tx + 1, ty + 4, 3, 7, '#120F2E'); R(tx + 2, ty, 1, 5, '#120F2E'); R(tx + 2, ty - 1, 1, 1, '#FFD23F'); });
+    // Torre Glòries bullet
+    R(18, 30, 8, 32, '#120F2E'); R(19, 26, 6, 5, '#120F2E'); R(21, 23, 2, 4, '#120F2E');
+    for (let gy = 30; gy < 60; gy += 3) if (rnd() < .5) R(19 + Math.floor(rnd() * 6), gy, 1, 1, rnd() < .5 ? '#2EE6FF' : '#FF3D8A');
+    // rooftop
+    R(0, 62, W, 28, '#07060F'); R(0, 62, W, 1, '#3A3480');
+    // string lights
+    for (let lx = 0; lx < W; lx += 1) { const ly = 54 + Math.round(2.5 * Math.sin(lx / W * Math.PI * 4)); if (lx % 5 === 0) R(lx, ly + 1, 1, 1, '#FFD23F'); else if (lx % 5 !== 2) R(lx, ly, 1, 1, '#3A3480'); }
+    // screen
+    R(94, 34, 56, 32, '#FFF8E7'); R(96, 36, 52, 28, '#07060F'); R(96, 41, 52, 18, '#2EE6FF');
+    R(118, 46, 8, 11, '#FF3D8A'); R(120, 44, 4, 2, '#FF3D8A'); R(114, 50, 4, 2, '#FF3D8A'); R(126, 48, 4, 2, '#FF3D8A');
+    R(102, 56, 40, 1, '#FFF8E7'); R(106, 58, 32, 1, '#FFF8E7');
+    R(96, 36, 52, 1, '#FFD23F'); // top light bar
+    // projector + beam
+    x.globalAlpha = .16; x.fillStyle = '#2EE6FF'; x.beginPath(); x.moveTo(54, 72); x.lineTo(96, 41); x.lineTo(96, 59); x.closePath(); x.fill(); x.globalAlpha = 1;
+    R(52, 70, 9, 5, '#B9B3DB'); R(60, 71, 2, 2, '#2EE6FF');
+    // crowd
+    for (let r = 0; r < 2; r++) for (let i = 0; i < 15; i++) {
+      const px = 2 + i * 11 + (r ? 5 : 0) + Math.floor(rnd() * 3), py = 73 + r * 7, cheer = rnd() < .22;
+      R(px + 1, py, 3, 3, '#03020A'); R(px, py + 3, 5, 7, '#03020A');
+      if (cheer) { R(px - 1, py - 3, 1, 6, '#03020A'); R(px + 5, py - 2, 1, 5, '#03020A'); }
+    }
+    // a few plants on the parapet
+    [8, 44, 152].forEach(px => { R(px, 60, 4, 3, '#2A2466'); R(px + 1, 57, 2, 3, '#1F7A3A'); R(px - 1, 58, 2, 2, '#1F7A3A'); R(px + 3, 58, 2, 2, '#1F7A3A'); });
+  }
+  const canvas = document.getElementById('scene');
+  if (canvas && canvas.getContext) drawScene(canvas);
+
+  /* copy email */
+  const btn = document.getElementById('copy');
+  if (btn) btn.addEventListener('click', async () => {
+    const old = btn.textContent;
+    try { await navigator.clipboard.writeText('collab@qnectrewind.com'); btn.textContent = 'Copied'; }
+    catch (e) { try { const r = document.createRange(); r.selectNodeContents(document.getElementById('email')); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (err) {} btn.textContent = 'Selected'; }
+    setTimeout(() => { btn.textContent = old; }, 1500);
+  });
+})();
+</script>
+</body>
+</html>
