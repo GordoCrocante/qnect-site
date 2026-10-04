@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qnect Tribes</title>
+<meta name="description" content="Prototype: small tribes of 3 to 6 pick one weekly goal, log progress with one tap, and race other tribes on an arcade scoreboard. Demo data, saved in this browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Barlow:wght@400;500;600;800&display=swap">
+<style>
+/* Layout: a phone-width arcade cabinet screen, fixed HUD on top, tab bar at the bottom. Single dark theme on purpose. */
+:root{
+  --bg:#0B0A1C; --bg2:#15123A; --panel:#1B1848; --panel2:#221E58; --line:#2F2A6B;
+  --ink:#FFF8E7; --muted:#B9B3DB;
+  --pink:#FF3D8A; --cyan:#2EE6FF; --yellow:#FFD23F; --orange:#FF7A1A; --green:#3DFF8F; --purple:#8A5CFF;
+  --pix:'Silkscreen',ui-monospace,monospace; --body:'Barlow',system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--pix);font-weight:700;line-height:1.1;text-transform:uppercase;text-wrap:balance}
+h1{font-size:1.5rem}h2{font-size:1.1rem}h3{font-size:.85rem}
+p{margin:0}
+button{font:inherit;color:inherit}
+.lbl{font-family:var(--pix);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+[hidden]{display:none!important}
+
+.app{max-width:620px;margin-inline:auto;min-height:100%;display:flex;flex-direction:column}
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:3px solid var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font-family:var(--pix);font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.logo b{color:var(--pink)}
+.logo i{display:inline-block;width:9px;height:9px;background:var(--cyan);box-shadow:-12px 0 0 var(--pink),12px 0 0 var(--yellow)}
+.demo{font-family:var(--pix);font-size:.58rem;text-transform:uppercase;color:#140A18;background:var(--yellow);padding:5px 7px;letter-spacing:.04em;white-space:nowrap}
+
+main{flex:1;padding:16px 16px calc(84px + env(safe-area-inset-bottom,0px))}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bg);border-top:3px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+.tabs .in{max-width:620px;margin-inline:auto;display:grid;grid-template-columns:1fr 1fr auto;gap:8px}
+.tab{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-family:var(--pix);font-size:.68rem;text-transform:uppercase;padding:12px 8px;border:3px solid var(--line);color:var(--muted);background:transparent;cursor:pointer}
+.tab[aria-current="page"]{color:#140A18;background:var(--cyan);border-color:var(--cyan)}
+.tab.reset{color:var(--muted);font-size:.6rem;padding-inline:10px}
+.tab.reset.armed{color:#140A18;background:var(--pink);border-color:var(--pink)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--pix);font-weight:700;font-size:.8rem;text-transform:uppercase;text-decoration:none;color:#140A18;background:var(--pink);padding:14px 16px;border:0;box-shadow:4px 4px 0 var(--ink);cursor:pointer;line-height:1;text-align:center}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn.cyan{background:var(--cyan)}.btn.yel{background:var(--yellow)}.btn.green{background:var(--green)}
+.btn.ghost{background:transparent;color:var(--ink);border:3px solid var(--line);box-shadow:none}
+.btn.wide{width:100%}
+.btn.big{font-size:1.05rem;padding:22px 16px}
+.btn:disabled{opacity:.5;cursor:default}
+.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:.9rem}
+@media (prefers-reduced-motion: reduce){.btn:active{transform:none}}
+
+/* panels */
+.panel{background:var(--panel);border:3px solid var(--ink);padding:16px;box-shadow:6px 6px 0 var(--c,var(--purple))}
+.panel + .panel,.stack > * + *{margin-top:18px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:var(--cyan)}
+.kicker::before{content:"";width:8px;height:8px;background:currentColor}
+.blink{animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.blink{animation:none}}
+
+/* forms */
+label{display:block;margin-bottom:6px}
+input[type=text]{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:3px solid var(--line);padding:12px 14px;min-width:0}
+input[type=text]:focus{outline:3px solid var(--cyan);outline-offset:0;border-color:var(--cyan)}
+.field + .field{margin-top:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:3px solid var(--line);background:var(--bg);padding:9px 12px;font-size:.92rem;cursor:pointer;color:var(--ink);text-align:left}
+.chip[aria-pressed="true"]{border-color:var(--yellow);background:var(--panel2)}
+.stepper{display:inline-flex;align-items:center;border:3px solid var(--line)}
+.stepper button{width:44px;height:44px;background:var(--bg);border:0;font-family:var(--pix);font-size:1rem;cursor:pointer}
+.stepper output{min-width:48px;text-align:center;font-family:var(--pix);font-size:1rem}
+.err{border-left:4px solid var(--orange);padding:8px 12px;color:var(--ink);background:var(--bg);font-size:.92rem}
+.codes{display:flex;flex-wrap:wrap;gap:8px}
+.code{font-family:var(--pix);font-size:.75rem;border:3px dashed var(--line);padding:8px 10px;cursor:pointer;background:transparent;color:var(--cyan)}
+
+/* scoreboard */
+.hs-head{text-align:center;padding:10px 0 4px}
+.hs-head h1{font-size:clamp(1.4rem,7vw,2.1rem);color:var(--yellow);text-shadow:3px 3px 0 var(--pink)}
+.hs-head p{margin-top:8px}
+.hs{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.hs li{display:grid;grid-template-columns:52px 1fr auto;gap:10px 12px;align-items:center;background:var(--panel);border:3px solid var(--line);padding:12px 12px 12px 10px;min-width:0;position:relative}
+.hs li.me{border-color:var(--pink);box-shadow:5px 5px 0 var(--pink)}
+.hs li.top1{border-color:var(--yellow)}.hs li.top2{border-color:var(--muted)}.hs li.top3{border-color:var(--orange)}
+.rank{font-family:var(--pix);font-size:.95rem;text-align:center;line-height:1}
+.rank small{display:block;font-size:.5rem;color:var(--muted);margin-top:4px}
+.top1 .rank{color:var(--yellow)}.top2 .rank{color:var(--muted)}.top3 .rank{color:var(--orange)}
+.hs .name{font-weight:800;font-size:1.05rem;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hs .goal{color:var(--muted);font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hs .pts{font-family:var(--pix);font-size:1rem;text-align:right;color:var(--cyan)}
+.hs .pts small{display:block;font-size:.5rem;color:var(--muted);margin-top:4px}
+.hs .meta{grid-column:2 / -1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hs .youtag{position:absolute;top:-10px;right:10px;background:var(--pink);color:#140A18;font-family:var(--pix);font-size:.55rem;padding:3px 6px}
+.bar{height:10px;background:var(--bg);border:2px solid var(--line);flex:1;min-width:80px}
+.bar span{display:block;height:100%;background:var(--green);transition:width .4s ease}
+.bar.cyan span{background:var(--cyan)}.bar.pink span{background:var(--pink)}
+@media (prefers-reduced-motion: reduce){.bar span{transition:none}}
+.streak{font-family:var(--pix);font-size:.6rem;color:var(--orange);white-space:nowrap}
+.sprites{display:flex;gap:3px}
+.sprites svg{width:16px;height:16px}
+svg.av{width:28px;height:28px;image-rendering:pixelated;flex:none}
+
+/* tribe */
+.tribe-head{display:grid;gap:10px}
+.tribe-head h1{font-size:clamp(1.3rem,6vw,1.8rem);color:var(--ink)}
+.codebox{display:inline-flex;align-items:center;gap:8px;border:3px dashed var(--line);padding:6px 8px 6px 10px}
+.codebox b{font-family:var(--pix);font-size:.85rem;color:var(--cyan);letter-spacing:.1em}
+.mini{font-family:var(--pix);font-size:.58rem;text-transform:uppercase;background:transparent;border:2px solid var(--line);color:var(--muted);padding:5px 7px;cursor:pointer}
+.mini:hover{color:var(--ink);border-color:var(--ink)}
+.goalbox{border-left:4px solid var(--yellow);padding:6px 0 6px 12px}
+.goalbox .lbl{color:var(--yellow)}
+.goalbox p{font-size:1.15rem;font-weight:700;margin-top:2px;line-height:1.3}
+.me-progress{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:18px;height:18px;border:3px solid var(--line);background:var(--bg)}
+.dot.on{background:var(--green);border-color:var(--green)}
+.dot.extra{background:var(--yellow);border-color:var(--yellow)}
+.logwrap{position:relative;margin-top:14px}
+.pop{position:absolute;right:16px;top:-8px;font-family:var(--pix);font-size:1rem;color:var(--green);pointer-events:none;animation:pop 1.1s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:translateY(8px)}20%{opacity:1}100%{opacity:0;transform:translateY(-34px)}}
+@media (prefers-reduced-motion: reduce){.pop{animation:none;opacity:1}}
+.nudge{border:3px solid var(--orange);background:var(--bg);padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.nudge .lbl{color:var(--orange)}
+.members{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.members li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;min-width:0}
+.members .who{min-width:0}
+.members .who b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.members .who span{color:var(--muted);font-size:.85rem}
+.members .dots .dot{width:12px;height:12px;border-width:2px}
+.feed{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px;max-height:360px;overflow:auto;border:3px solid var(--line);padding:10px;background:var(--bg)}
+.feed li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;font-size:.95rem}
+.feed li svg{width:22px;height:22px}
+.feed .sys{color:var(--muted);font-size:.85rem;grid-column:1 / -1;border-top:1px dashed var(--line);padding-top:6px}
+.feed .sys.log{color:var(--green)}.feed .sys.nudge{color:var(--orange)}
+.feed .t{color:var(--muted);font-size:.72rem;margin-left:6px;font-family:var(--pix)}
+.feed .me b{color:var(--cyan)}
+.compose{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
+.compose input{border-color:var(--line)}
+.empty{color:var(--muted);font-style:italic;font-size:.92rem;padding:8px 0}
+.over{border:3px solid var(--yellow);padding:14px;background:var(--panel2)}
+.start{display:grid;gap:12px}
+.start .btn{padding-block:18px}
+.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.small{font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hud">
+    <a class="logo" href="#scoreboard"><i></i> QNECT <b>TRIBES</b></a>
+    <span class="demo" title="Everything here lives in this browser's storage">Demo · data stays in this browser</span>
+  </header>
+  <main id="screen" aria-live="polite"></main>
+  <nav class="tabs" aria-label="App">
+    <div class="in">
+      <a class="tab" href="#tribe" id="tab-tribe">My tribe</a>
+      <a class="tab" href="#scoreboard" id="tab-score">Scoreboard</a>
+      <button class="tab reset" type="button" id="tab-reset">Reset demo</button>
+    </div>
+  </nav>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const KEY = 'qnect_tribes_v1';
+  const DAY = 86400000;
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const uid = () => Math.random().toString(36).slice(2, 10);
+  const screen = $('#screen');
+
+  /* ---------- goals ---------- */
+  const GOALS = ['Speak Spanish with a stranger 3 times', 'Order in Spanish every day, no English fallback', 'Ask a local for a recommendation 3 times', 'Learn 5 words from a stranger and use them', 'Shoot one trailer scene a day'];
+  const GOAL_TARGET = [3, 7, 3, 3, 7];
+  const TRIBE_NAMES = ['Rooftop Rebels','Café con Leche FC','Los Perdidos de Gràcia','Poblenou Pigeons','Born Yesterday','Raval Subtitles','Siesta Resistance','Vermut Vanguard','Metro Line Cinco','Las Ramblas Ramblers','Barceloneta Bandits','Tapas Nervous'];
+
+  /* ---------- demo seed ---------- */
+  function seedDemo(){
+    let s = 4242; const rnd = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    const now = Date.now();
+    const start = new Date(now - 4 * DAY); start.setHours(9, 0, 0, 0); const startAt = start.getTime();
+    const mk = (name, code, goal, target, people, pace, chat) => {
+      const members = people.map(([n, p]) => {
+        const want = Math.max(0, Math.min(target + 1, Math.round(target * p * pace)));
+        const logs = [];
+        for (let i = 0; i < want; i++) { const d = Math.min(4, Math.floor(i / Math.max(1, Math.ceil(want / 4)))); logs.push(startAt + d * DAY + (9 + Math.floor(rnd() * 11)) * 3600000 + Math.floor(rnd() * 3600000)); }
+        logs.sort((a, b) => a - b);
+        return { id: uid(), name: n, demo: true, logs };
+      });
+      const feed = [];
+      members.forEach(m => m.logs.forEach((t, i) => feed.push({ id: uid(), t, type: 'log', from: m.id, text: (i + 1) + '/' + target })));
+      chat.forEach(([who, text, dayOff, hr]) => { const m = members[who % members.length]; feed.push({ id: uid(), t: startAt + dayOff * DAY + hr * 3600000, type: 'msg', from: m.id, text }); });
+      feed.sort((a, b) => a.t - b.t);
+      return { id: uid(), name, code, goal, target, startAt, demo: true, members, feed };
+    };
+    const tribes = [
+      mk('Rooftop Rebels', 'HAAUS1', GOALS[0], 3, [['Lena K.', 1.3], ['Tomás B.', 1], ['Aisha R.', 1], ['Marco D.', .9]], 1, [
+        [0, 'Rule: the waiter does not count unless you ask a real question.', 0, 10],
+        [1, 'Asked the guy at the fruit stall which mango is better. 15 minutes later I know his daughter studies in Madrid.', 1, 19],
+        [2, 'Counting that as two.', 1, 19.3],
+        [3, 'Rooftop drinks Thursday to compare notes? 8pm?', 3, 21]
+      ]),
+      mk('Born Yesterday', 'BORN22', GOALS[4], 7, [['Priya S.', .9], ['Jonas W.', .8], ['Chiara M.', .7]], 1, [
+        [0, 'Scene 3 shot at the Arc de Triomf. A pigeon stole the take.', 2, 18],
+        [2, 'Keep the pigeon. The pigeon is the trailer.', 2, 18.2]
+      ]),
+      mk('Café con Leche FC', 'TAPAS2', GOALS[1], 7, [['Felix O.', .6], ['Noor A.', .5], ['Diego P.', .4], ['Hana T.', .5], ['Oskar L.', .3]], 1, [
+        [1, 'Day 3 and I have ordered the same bocadillo three times because it is the only one I can say.', 2, 14],
+        [0, 'That is still Spanish.', 2, 14.2],
+        [3, 'Tomorrow we go to the market and nobody is allowed to point.', 3, 20]
+      ]),
+      mk('Los Perdidos de Gràcia', 'GRACI4', GOALS[2], 3, [['Maya F.', .7], ['Kwame A.', .7], ['Sofie H.', .4], ['Rafael C.', .6]], 1, [
+        [0, 'Got sent to a bar with no sign. Best recommendation so far.', 1, 22],
+        [2, 'I asked, panicked, and said gracias before the answer. Does it count?', 3, 12],
+        [1, 'No.', 3, 12.1]
+      ]),
+      mk('Poblenou Pigeons', 'POBLE1', GOALS[3], 3, [['Inés V.', .7], ['Lukas N.', .4], ['Yuki S.', .3], ['Amara O.', .6], ['Pau G.', .3], ['Elif K.', .2]], 1, [
+        [0, 'New word: "guiri". Learned it the hard way.', 1, 17],
+        [3, 'Six of us and we are losing to a tribe of three. Shameful. Log something.', 3, 9]
+      ]),
+      mk('Raval Subtitles', 'RAVAL7', GOALS[0], 3, [['Sam D.', .4], ['Nadia B.', .3], ['Arjun M.', .2], ['Lea R.', .3], ['Mateo Q.', 0]], 1, [
+        [1, 'Who is actually doing this?', 2, 23],
+        [0, 'Me. Once. The pharmacist.', 3, 8]
+      ])
+    ];
+    const out = {}; tribes.forEach(t => { out[t.id] = t; });
+    return out;
+  }
+
+  /* ---------- state ---------- */
+  let state = load();
+  function load(){
+    try { const raw = localStorage.getItem(KEY); if (raw) { const st = JSON.parse(raw); if (st && st.tribes) return st; } } catch (e) {}
+    return { me: { name: '', tribeId: null, memberId: null }, tribes: seedDemo(), seededAt: Date.now() };
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function resetDemo(){ state = { me: { name: '', tribeId: null, memberId: null }, tribes: seedDemo(), seededAt: Date.now() }; save(); location.hash = '#scoreboard'; render(); }
+
+  const myTribe = () => state.me.tribeId ? state.tribes[state.me.tribeId] || null : null;
+  const member = (t, id) => t.members.find(m => m.id === id);
+  const weekLogs = (m, t) => m.logs.filter(ts => ts >= t.startAt && ts < t.startAt + 7 * DAY);
+  function dayOf(t){ return Math.floor((Date.now() - t.startAt) / DAY) + 1; }
+  function daysLeft(t){ return Math.max(0, Math.ceil((t.startAt + 7 * DAY - Date.now()) / DAY)); }
+  function dayKey(ts){ const d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
+  function tribeStreak(t){
+    const days = new Set(); t.members.forEach(m => weekLogs(m, t).forEach(ts => days.add(dayKey(ts))));
+    let n = 0, cursor = Date.now();
+    if (!days.has(dayKey(cursor))) cursor -= DAY;
+    while (days.has(dayKey(cursor)) && cursor >= t.startAt - DAY) { n++; cursor -= DAY; }
+    return n;
+  }
+  function stats(t){
+    let pts = 0, done = 0, total = 0;
+    t.members.forEach(m => {
+      const n = weekLogs(m, t).length;
+      total += Math.min(n, t.target);
+      pts += Math.min(n, t.target) * 10 + Math.max(0, n - t.target) * 5 + (n >= t.target ? 25 : 0);
+      if (n >= t.target) done++;
+    });
+    const streak = tribeStreak(t); pts += streak * 5;
+    const pct = t.members.length ? Math.round(total / (t.members.length * t.target) * 100) : 0;
+    return { pts, done, pct, streak, day: Math.min(7, Math.max(1, dayOf(t))), over: dayOf(t) > 7, left: daysLeft(t) };
+  }
+  function ranked(){ return Object.values(state.tribes).map(t => Object.assign({ t }, stats(t))).sort((a, b) => b.pts - a.pts || b.pct - a.pct); }
+
+  /* ---------- pixel sprites ---------- */
+  const SPRITE_COLORS = ['#FF3D8A','#2EE6FF','#FFD23F','#3DFF8F','#FF7A1A','#8A5CFF'];
+  function hash(str){ let x = 2166136261; for (const c of String(str)) { x ^= c.charCodeAt(0); x = Math.imul(x, 16777619) >>> 0; } return x; }
+  function sprite(seed, cls){
+    const hsh = hash(seed); const col = SPRITE_COLORS[hsh % SPRITE_COLORS.length];
+    let bits = hsh >>> 4, rects = '';
+    for (let y = 0; y < 5; y++) for (let x = 0; x < 3; x++) { if ((bits >> (y * 3 + x)) & 1) { rects += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>'; if (x < 2) rects += '<rect x="' + (4 - x) + '" y="' + y + '" width="1" height="1"/>'; } }
+    if (!rects) rects = '<rect x="1" y="1" width="3" height="3"/>';
+    return '<svg class="' + (cls || 'av') + '" viewBox="0 0 5 5" shape-rendering="crispEdges" fill="' + col + '" aria-hidden="true"><rect width="5" height="5" fill="#0B0A1C"/>' + rects + '</svg>';
+  }
+
+  /* ---------- helpers ---------- */
+  function rel(ts){
+    const d = Date.now() - ts; if (d < 60000) return 'now'; if (d < 3600000) return Math.floor(d / 60000) + 'm'; if (d < DAY) return Math.floor(d / 3600000) + 'h';
+    return new Date(ts).toLocaleDateString(undefined, { weekday: 'short' });
+  }
+  const ord = n => n === 1 ? '1ST' : n === 2 ? '2ND' : n === 3 ? '3RD' : n + 'TH';
+  function makeCode(){ const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 6; i++) c += A[Math.floor(Math.random() * A.length)]; return Object.values(state.tribes).some(t => t.code === c) ? makeCode() : c; }
+  function flash(el, text){ if (!el) return; const p = document.createElement('span'); p.className = 'pop'; p.textContent = text; el.appendChild(p); setTimeout(() => p.remove(), 1200); }
+  async function copy(text, btn){ const old = btn.textContent; try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; } catch (e) { btn.textContent = 'Select it'; } setTimeout(() => { btn.textContent = old; }, 1400); }
+
+  const DEMO_REPLIES = ['Vale vale, doing it today.', 'On it. There is a man selling churros who is about to meet me.', 'Logged. The pharmacist knows my whole life now.', 'Tonight after work, promise.', 'Fine. FINE.', 'Done, and I got a free olive out of it.'];
+  function demoReply(t, excludeId, kind){
+    const pool = t.members.filter(m => m.demo && m.id !== excludeId); if (!pool.length) return;
+    const m = pool[Math.floor(Math.random() * pool.length)];
+    setTimeout(() => {
+      const cur = state.tribes[t.id]; if (!cur) return;
+      cur.feed.push({ id: uid(), t: Date.now(), type: 'msg', from: m.id, text: DEMO_REPLIES[Math.floor(Math.random() * DEMO_REPLIES.length)] });
+      save(); if (view() === 'tribe') render();
+    }, kind === 'nudge' ? 1600 : 1300 + Math.random() * 900);
+  }
+
+  /* ---------- router ---------- */
+  function view(){ const v = (location.hash || '#scoreboard').slice(1); return ['scoreboard','tribe','create','join'].includes(v) ? v : 'scoreboard'; }
+  window.addEventListener('hashchange', render);
+
+  function render(){
+    let v = view();
+    if (v === 'tribe' && !myTribe()) v = 'join';
+    $('#tab-tribe').setAttribute('aria-current', v === 'tribe' || v === 'create' || v === 'join' ? 'page' : 'false');
+    $('#tab-score').setAttribute('aria-current', v === 'scoreboard' ? 'page' : 'false');
+    screen.innerHTML = ({ scoreboard: rScoreboard, tribe: rTribe, create: rCreate, join: rJoin })[v]();
+    bind(v);
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- views ---------- */
+  function rScoreboard(){
+    const rows = ranked(); const mine = myTribe();
+    const cta = mine
+      ? '<div class="panel" style="--c:var(--pink)"><div class="row"><div><div class="lbl" style="color:var(--pink)">Your tribe</div><h2 style="margin-top:6px">' + h(mine.name) + '</h2></div><a class="btn cyan" href="#tribe">Open</a></div></div>'
+      : '<div class="panel start" style="--c:var(--cyan)"><div class="kicker lbl">Press start</div><h2>A tribe is 3 to 6 people, one goal, one week.</h2><p class="muted small">Create one and send the code around, or join one with a code. Everything here is a demo saved in this browser.</p><a class="btn" href="#create">Create a tribe</a><a class="btn ghost" href="#join">Join with a code</a></div>';
+    const list = rows.map((r, i) => {
+      const t = r.t, isMe = mine && mine.id === t.id;
+      return '<li class="' + (isMe ? 'me ' : '') + (i < 3 ? 'top' + (i + 1) : '') + '">' +
+        (isMe ? '<span class="youtag">You</span>' : '') +
+        '<div class="rank">' + ord(i + 1) + '<small>' + (t.demo ? 'demo' : 'new') + '</small></div>' +
+        '<div style="min-width:0"><div class="name">' + h(t.name) + '</div><div class="goal">' + h(t.goal) + '</div></div>' +
+        '<div class="pts num">' + r.pts + '<small>pts</small></div>' +
+        '<div class="meta"><span class="sprites">' + t.members.map(m => sprite(m.id + m.name, '')).join('') + '</span>' +
+        '<div class="bar"><span style="width:' + r.pct + '%"></span></div>' +
+        '<span class="lbl muted num">' + r.pct + '%</span>' +
+        (r.streak ? '<span class="streak">Streak x' + r.streak + '</span>' : '') +
+        '<span class="lbl muted">' + (r.over ? 'Week over' : 'Day ' + r.day + '/7') + '</span></div>' +
+      '</li>';
+    }).join('');
+    return '<div class="hs-head"><div class="lbl" style="color:var(--cyan)">Tribes vs tribes · This week</div><h1>High scores</h1><p class="muted small">10 points per logged step, 25 when a member hits the goal, 5 per day of tribe streak.</p></div>' +
+      '<div class="stack">' + cta + '<ol class="hs">' + list + '</ol>' +
+      '<p class="lbl muted blink" style="text-align:center;padding:14px 0">Insert coin to continue</p></div>';
+  }
+
+  function rCreate(){
+    const chips = GOALS.map((g, i) => '<button type="button" class="chip" data-goal="' + i + '" aria-pressed="' + (i === 0 ? 'true' : 'false') + '">' + h(g) + '</button>').join('');
+    return '<div class="stack"><div><a class="link" href="#scoreboard">Back</a></div>' +
+      '<div class="panel" style="--c:var(--pink)"><div class="kicker lbl">New tribe</div><h1 style="margin-top:8px">Create a tribe</h1>' +
+      '<form id="create-form" novalidate style="margin-top:16px">' +
+      '<div class="field"><label class="lbl muted" for="c-me">Your name</label><input type="text" id="c-me" autocomplete="name" placeholder="Your name" value="' + h(state.me.name) + '"></div>' +
+      '<div class="field"><label class="lbl muted" for="c-name">Tribe name</label><div class="inline" style="flex-wrap:nowrap"><input type="text" id="c-name" placeholder="Rooftop Rebels" value="' + h(TRIBE_NAMES[6 + Math.floor(Math.random() * 6)]) + '"><button type="button" class="mini" id="c-rand">Random</button></div></div>' +
+      '<div class="field"><div class="lbl muted" style="margin-bottom:6px">The one goal this week</div><div class="chips" id="c-chips">' + chips + '</div><input type="text" id="c-custom" placeholder="Or write your own goal" style="margin-top:8px"></div>' +
+      '<div class="field"><div class="lbl muted" style="margin-bottom:6px">Times per member this week</div><div class="stepper"><button type="button" id="c-minus" aria-label="Fewer">-</button><output id="c-target">3</output><button type="button" id="c-plus" aria-label="More">+</button></div></div>' +
+      '<p class="err" id="c-err" hidden></p>' +
+      '<button class="btn wide" type="submit" style="margin-top:18px">Create tribe and get a code</button>' +
+      '</form></div></div>';
+  }
+
+  function rJoin(){
+    const demos = Object.values(state.tribes).filter(t => t.demo && t.members.length < 6);
+    return '<div class="stack"><div><a class="link" href="#scoreboard">Back</a></div>' +
+      '<div class="panel" style="--c:var(--cyan)"><div class="kicker lbl">Join</div><h1 style="margin-top:8px">Join a tribe</h1>' +
+      '<form id="join-form" novalidate style="margin-top:16px">' +
+      '<div class="field"><label class="lbl muted" for="j-me">Your name</label><input type="text" id="j-me" autocomplete="name" placeholder="Your name" value="' + h(state.me.name) + '"></div>' +
+      '<div class="field"><label class="lbl muted" for="j-code">Invite code</label><input type="text" id="j-code" placeholder="6 letters" autocapitalize="characters" autocomplete="off" spellcheck="false" style="font-family:var(--pix);letter-spacing:.15em;text-transform:uppercase"></div>' +
+      '<p class="err" id="j-err" hidden></p>' +
+      '<button class="btn cyan wide" type="submit" style="margin-top:18px">Join tribe</button>' +
+      '</form>' +
+      '<div style="margin-top:18px"><div class="lbl muted">Demo codes (tap to fill)</div><div class="codes" style="margin-top:8px">' + demos.map(t => '<button type="button" class="code" data-code="' + h(t.code) + '">' + h(t.code) + ' · ' + h(t.name) + '</button>').join('') + '</div></div>' +
+      '</div>' +
+      '<p class="small muted" style="text-align:center">No code? <a href="#create">Create a tribe</a> instead.</p></div>';
+  }
+
+  function rTribe(){
+    const t = myTribe(); const st = stats(t); const me = member(t, state.me.memberId);
+    const myN = me ? weekLogs(me, t).length : 0;
+    const behind = t.members.filter(m => m.id !== state.me.memberId && weekLogs(m, t).length < t.target);
+    const dots = (n, size) => { let s = ''; for (let i = 0; i < Math.max(t.target, n); i++) s += '<span class="dot ' + (i < Math.min(n, t.target) ? 'on' : i < n ? 'extra' : '') + '"></span>'; return '<div class="dots">' + s + '</div>'; };
+    const rank = ranked().findIndex(r => r.t.id === t.id) + 1;
+
+    const head = '<div class="panel tribe-head" style="--c:var(--pink)">' +
+      '<div class="row"><div class="kicker lbl">' + (st.over ? 'Week over' : 'Day ' + st.day + ' of 7 · ' + (st.left === 0 ? 'ends today' : st.left + ' day' + (st.left === 1 ? '' : 's') + ' left')) + '</div><span class="lbl muted">' + ord(rank) + ' of ' + Object.keys(state.tribes).length + '</span></div>' +
+      '<h1>' + h(t.name) + '</h1>' +
+      '<div class="row"><span class="codebox"><span class="lbl muted">Code</span><b>' + h(t.code) + '</b><button type="button" class="mini" id="copy-code">Copy</button></span><span class="lbl muted">' + t.members.length + ' of 6 members</span></div>' +
+      '<div class="goalbox"><div class="lbl">This week’s goal</div><p>' + h(t.goal) + '</p><span class="lbl muted">' + t.target + ' times per member</span></div>' +
+      '</div>';
+
+    const over = st.over ? '<div class="over"><div class="lbl" style="color:var(--yellow)">The week is over</div><p style="margin-top:6px">Final score: <b class="num">' + st.pts + ' pts</b>, ' + st.done + ' of ' + t.members.length + ' hit the goal. Start a new week to keep the tribe going.</p><button class="btn yel" type="button" id="new-week" style="margin-top:12px">Start a new week</button></div>' : '';
+
+    const mine = me ? '<div class="panel" style="--c:var(--green)"><div class="row"><div><div class="lbl" style="color:var(--green)">You · ' + h(me.name) + '</div><div class="me-progress" style="margin-top:8px">' + dots(myN) + '<span class="lbl muted num">' + myN + '/' + t.target + (myN >= t.target ? ' · goal hit' : '') + '</span></div></div></div>' +
+      '<div class="logwrap"><button class="btn green wide big" type="button" id="log" ' + (st.over ? 'disabled' : '') + '>' + (myN >= t.target ? 'Log one more (+5)' : 'Log progress (+10)') + '</button></div>' +
+      '<div class="row" style="margin-top:10px"><span class="small muted">One tap each time you do the goal.</span>' + (myN ? '<button type="button" class="link" id="undo">Undo last</button>' : '') + '</div></div>' : '';
+
+    const nudgeBox = behind.length && !st.over ? '<div class="nudge"><div><div class="lbl">Nudge</div><p class="small">' + behind.length + ' member' + (behind.length === 1 ? ' has' : 's have') + ' not hit the goal yet.</p></div><button type="button" class="btn ghost" id="nudge-all" style="padding:10px 12px;font-size:.66rem">Nudge all</button></div>' : '';
+
+    const members = '<div class="panel" style="--c:var(--cyan)"><div class="row"><h3>Tribe progress</h3><span class="lbl muted num">' + st.pts + ' pts · streak x' + st.streak + '</span></div>' +
+      '<div class="inline" style="margin-top:10px"><div class="bar cyan"><span style="width:' + st.pct + '%"></span></div><span class="lbl muted num">' + st.pct + '%</span></div>' +
+      '<p class="small muted" style="margin-top:6px">' + st.done + ' of ' + t.members.length + ' hit the goal.</p>' +
+      '<ul class="members">' + t.members.map(m => { const n = weekLogs(m, t).length; const isMe = m.id === state.me.memberId; return '<li>' + sprite(m.id + m.name) + '<div class="who"><b>' + h(m.name) + (isMe ? ' <span>(you)</span>' : '') + '</b><span class="num">' + n + '/' + t.target + (n >= t.target ? ' · done' : '') + '</span></div>' + (!isMe && n < t.target && !st.over ? '<button type="button" class="mini" data-nudge="' + m.id + '">Nudge</button>' : dots(n)) + '</li>'; }).join('') + '</ul>' +
+      (t.members.length < 6 ? '<p class="small muted" style="margin-top:12px">Room for ' + (6 - t.members.length) + ' more. Share the code.</p>' : '') + '</div>';
+
+    const feedItems = t.feed.slice(-40).map(f => {
+      const m = member(t, f.from); const name = m ? m.name : 'Someone'; const isMe = f.from === state.me.memberId;
+      if (f.type === 'msg') return '<li class="' + (isMe ? 'me' : '') + '">' + sprite(f.from + name, '') + '<div><b>' + h(name) + '</b><span class="t">' + rel(f.t) + '</span><br>' + h(f.text) + '</div></li>';
+      if (f.type === 'log') return '<li><span class="sys log">' + h(name) + ' logged ' + h(f.text) + ' <span class="t">' + rel(f.t) + '</span></span></li>';
+      if (f.type === 'nudge') return '<li><span class="sys nudge">' + h(f.text) + ' <span class="t">' + rel(f.t) + '</span></span></li>';
+      return '<li><span class="sys">' + h(f.text) + ' <span class="t">' + rel(f.t) + '</span></span></li>';
+    }).join('');
+    const feed = '<div class="panel" style="--c:var(--yellow)"><h3>Tribe feed</h3>' +
+      (feedItems ? '<ul class="feed" id="feed">' + feedItems + '</ul>' : '<p class="empty">Quiet so far. Say something, or log something.</p>') +
+      '<form class="compose" id="compose"><input type="text" id="msg" placeholder="Say something to your tribe" autocomplete="off" aria-label="Message"><button class="btn yel" type="submit" style="padding-inline:14px">Send</button></form></div>';
+
+    return '<div class="stack">' + head + over + mine + nudgeBox + members + feed +
+      '<p style="text-align:center"><button type="button" class="link" id="leave">Leave this tribe</button></p></div>';
+  }
+
+  /* ---------- events ---------- */
+  function bind(v){
+    if (v === 'create') {
+      let target = 3, goalIdx = 0;
+      const out = $('#c-target');
+      $('#c-minus').addEventListener('click', () => { target = Math.max(1, target - 1); out.textContent = target; });
+      $('#c-plus').addEventListener('click', () => { target = Math.min(7, target + 1); out.textContent = target; });
+      $('#c-rand').addEventListener('click', () => { $('#c-name').value = TRIBE_NAMES[Math.floor(Math.random() * TRIBE_NAMES.length)]; });
+      $$('#c-chips .chip').forEach(ch => ch.addEventListener('click', () => { goalIdx = +ch.dataset.goal; target = GOAL_TARGET[goalIdx] || 3; out.textContent = target; $$('#c-chips .chip').forEach(c => c.setAttribute('aria-pressed', c === ch ? 'true' : 'false')); $('#c-custom').value = ''; }));
+      $('#c-custom').addEventListener('input', () => { if ($('#c-custom').value.trim()) { goalIdx = -1; $$('#c-chips .chip').forEach(c => c.setAttribute('aria-pressed', 'false')); } });
+      $('#create-form').addEventListener('submit', ev => {
+        ev.preventDefault();
+        const me = $('#c-me').value.trim(), name = $('#c-name').value.trim(), custom = $('#c-custom').value.trim();
+        const goal = goalIdx >= 0 ? GOALS[goalIdx] : custom; const err = $('#c-err');
+        if (!me || !name || !goal) { err.textContent = 'Your name, a tribe name and one goal. That is all.'; err.hidden = false; return; }
+        leaveCurrent();
+        const m = { id: uid(), name: me, demo: false, logs: [] };
+        const t = { id: uid(), name, code: makeCode(), goal, target, startAt: Date.now(), demo: false, members: [m], feed: [{ id: uid(), t: Date.now(), type: 'sys', from: m.id, text: me + ' created the tribe. Week 1 starts now.' }] };
+        state.tribes[t.id] = t; state.me = { name: me, tribeId: t.id, memberId: m.id }; save();
+        location.hash = '#tribe'; render();
+      });
+    }
+    if (v === 'join') {
+      $$('.code[data-code]').forEach(b => b.addEventListener('click', () => { $('#j-code').value = b.dataset.code; $('#j-me').focus(); }));
+      $('#join-form').addEventListener('submit', ev => {
+        ev.preventDefault();
+        const me = $('#j-me').value.trim(), code = $('#j-code').value.trim().toUpperCase(); const err = $('#j-err');
+        const t = Object.values(state.tribes).find(x => x.code === code);
+        if (!me) { err.textContent = 'Tell the tribe your name first.'; err.hidden = false; return; }
+        if (!t) { err.textContent = 'No tribe has that code. Check with your captain, or tap a demo code.'; err.hidden = false; return; }
+        if (t.members.length >= 6) { err.textContent = 'That tribe is full (6 is the max). Start your own.'; err.hidden = false; return; }
+        leaveCurrent();
+        const m = { id: uid(), name: me, demo: false, logs: [] };
+        t.members.push(m); t.feed.push({ id: uid(), t: Date.now(), type: 'sys', from: m.id, text: me + ' joined the tribe.' });
+        state.me = { name: me, tribeId: t.id, memberId: m.id }; save();
+        if (t.demo) demoReply(t, m.id, 'join');
+        location.hash = '#tribe'; render();
+      });
+    }
+    if (v === 'tribe') {
+      const t = myTribe(); const me = member(t, state.me.memberId);
+      $('#copy-code').addEventListener('click', e => copy(t.code, e.currentTarget));
+      const log = $('#log');
+      if (log) log.addEventListener('click', () => {
+        const before = weekLogs(me, t).length; me.logs.push(Date.now()); const n = before + 1;
+        t.feed.push({ id: uid(), t: Date.now(), type: 'log', from: me.id, text: n + '/' + t.target });
+        if (n === t.target) t.feed.push({ id: uid(), t: Date.now(), type: 'sys', from: me.id, text: me.name + ' hit the weekly goal. +25.' });
+        save(); render();
+        flash($('.logwrap'), n === t.target ? '+25 GOAL' : n > t.target ? '+5' : '+10');
+      });
+      const undo = $('#undo'); if (undo) undo.addEventListener('click', () => { const wl = weekLogs(me, t); if (!wl.length) return; const last = wl[wl.length - 1]; me.logs = me.logs.filter(x => x !== last); for (let i = t.feed.length - 1; i >= 0; i--) { if (t.feed[i].from === me.id && (t.feed[i].type === 'log' || t.feed[i].type === 'sys') && Math.abs(t.feed[i].t - last) < 1500) t.feed.splice(i, 1); } save(); render(); });
+      const nudgeOne = m => { const n = weekLogs(m, t).length; t.feed.push({ id: uid(), t: Date.now(), type: 'nudge', from: me.id, text: me.name + ' nudged ' + m.name + ': ' + (t.target - n) + ' to go.' }); };
+      $$('[data-nudge]').forEach(b => b.addEventListener('click', () => { const m = member(t, b.dataset.nudge); if (!m) return; nudgeOne(m); save(); render(); if (m.demo) demoReply(t, me.id, 'nudge'); }));
+      const all = $('#nudge-all'); if (all) all.addEventListener('click', () => { t.members.filter(m => m.id !== me.id && weekLogs(m, t).length < t.target).forEach(nudgeOne); save(); render(); if (t.demo) demoReply(t, me.id, 'nudge'); });
+      $('#compose').addEventListener('submit', ev => { ev.preventDefault(); const text = $('#msg').value.trim(); if (!text) return; t.feed.push({ id: uid(), t: Date.now(), type: 'msg', from: me.id, text }); save(); render(); if (t.demo && Math.random() < .7) demoReply(t, me.id, 'msg'); });
+      const nw = $('#new-week'); if (nw) nw.addEventListener('click', () => { t.startAt = Date.now(); t.members.forEach(m => { m.logs = []; }); t.feed.push({ id: uid(), t: Date.now(), type: 'sys', from: me.id, text: 'New week. Same goal, fresh board.' }); save(); render(); });
+      $('#leave').addEventListener('click', () => { leaveCurrent(); save(); location.hash = '#scoreboard'; render(); });
+      const feed = $('#feed'); if (feed) feed.scrollTop = feed.scrollHeight;
+    }
+  }
+  function leaveCurrent(){
+    const t = myTribe(); if (!t) return;
+    t.members = t.members.filter(m => m.id !== state.me.memberId);
+    if (!t.members.length && !t.demo) delete state.tribes[t.id];
+    state.me.tribeId = null; state.me.memberId = null;
+  }
+
+  /* reset: two taps, no confirm() */
+  const resetBtn = $('#tab-reset'); let armed = null;
+  resetBtn.addEventListener('click', () => {
+    if (armed) { clearTimeout(armed); armed = null; resetBtn.classList.remove('armed'); resetBtn.textContent = 'Reset demo'; resetDemo(); return; }
+    resetBtn.classList.add('armed'); resetBtn.textContent = 'Tap again to reset';
+    armed = setTimeout(() => { armed = null; resetBtn.classList.remove('armed'); resetBtn.textContent = 'Reset demo'; }, 3000);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
