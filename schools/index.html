@@ -2,77 +2,75 @@
 <title>Qnect Rewind · Te retamos / We challenge you</title>
 <meta name="description" content="Un reto gratis de 7 días en equipo para 6 de tus estudiantes. A free 7-day team challenge for 6 of your students.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F5F2EB;--ink:#0E0E10;--acc:#FF4B1F;--mute:#6B6860;--line:#D9D4C7}
+:root{--ink:#2B2A35;--y:#EDE57A;--m:#74E6CC;--mute:#5E5C6B;--soft:#F4F8F4}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter Tight",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:19px;line-height:1.4;-webkit-font-smoothing:antialiased}
+body{margin:0;color:var(--ink);font-family:"Red Hat Display",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:19px;line-height:1.45;background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 html[lang="es"] [data-l="en"],html[lang="en"] [data-l="es"]{display:none!important}
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
-nav .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:26px;padding-bottom:26px}
-.logo{font-weight:800;letter-spacing:-.01em;font-size:20px}
-.lang button{font:inherit;font-size:14px;font-weight:700;background:none;border:0;color:var(--mute);cursor:pointer;padding:4px 6px;letter-spacing:.06em}
+.bg{background:radial-gradient(60% 50% at 8% 6%,rgba(116,230,204,.38),transparent 70%),radial-gradient(45% 40% at 96% 10%,rgba(237,229,122,.35),transparent 70%),#fff}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+.nav{margin:16px auto 0;max-width:1160px;padding:0 16px}
+.pill{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.86);backdrop-filter:blur(8px);border-radius:99px;padding:12px 14px 12px 28px;box-shadow:0 6px 30px rgba(43,42,53,.09)}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.02em}
+.right{display:flex;align-items:center;gap:12px}
+.lang button{font:inherit;font-weight:700;font-size:14px;background:none;border:0;color:var(--mute);cursor:pointer;padding:6px 7px}
 .lang button[aria-pressed="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
-.hero{padding:7vh 0 9vh}
-h1{font-weight:900;letter-spacing:-.045em;line-height:.88;font-size:clamp(68px,17vw,230px);margin:0}
-h1 i{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.02em;color:var(--acc)}
-.nums{display:flex;gap:clamp(18px,4vw,56px);flex-wrap:wrap;margin:46px 0 40px;font-weight:700;font-size:clamp(20px,3vw,32px);letter-spacing:-.02em}
-.nums span b{font-weight:900;color:var(--acc);margin-right:.35em}
-.btn{display:inline-flex;align-items:center;gap:14px;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;font-size:20px;padding:20px 34px;border-radius:99px;transition:background .2s,transform .2s}
-.btn:hover{background:var(--acc);transform:translateY(-2px)}
-.free{margin-left:22px;color:var(--mute);font-size:17px}
-section{border-top:1px solid var(--line);padding:70px 0}
-.lab{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:34px}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
-.st .n{font-weight:900;font-size:clamp(64px,9vw,120px);letter-spacing:-.05em;line-height:.9;color:var(--ink)}
-.st.q .n{color:transparent;-webkit-text-stroke:2px var(--ink)}
-.st h3{margin:14px 0 6px;font-size:24px;letter-spacing:-.02em}
-.st p{margin:0;color:var(--mute);font-size:18px}
-.dark{background:var(--ink);color:#fff;border:0}
-.dark .lab{color:#8f8b82}
-.big{font-weight:900;letter-spacing:-.04em;line-height:.95;font-size:clamp(42px,8vw,110px);margin:0}
-.big + .sm{color:#aaa69c;font-size:19px;margin:6px 0 34px}
-.big i{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--acc)}
-.uni{font-size:clamp(28px,4.5vw,56px);letter-spacing:-.03em;font-weight:800;line-height:1.05;max-width:900px;margin:0}
-.uni i{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-style:italic;color:var(--acc)}
-.cta{text-align:left;padding:90px 0 80px}
-.cta h2{font-weight:900;letter-spacing:-.045em;line-height:.9;font-size:clamp(56px,13vw,170px);margin:0 0 40px}
-.cta h2 i{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-style:italic;color:var(--acc)}
-.stu{display:inline-block;margin-top:26px;color:var(--ink);font-weight:600;font-size:17px}
-footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--mute);font-size:16px}
-footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-footer a{color:var(--ink)}
-@media(max-width:820px){.steps{grid-template-columns:1fr 1fr;row-gap:44px}.free{display:block;margin:16px 0 0}}
+.btn{display:inline-block;background:linear-gradient(90deg,var(--y),var(--m));color:var(--ink);text-decoration:none;font-weight:700;font-size:18px;padding:14px 28px;border-radius:99px;box-shadow:3px 3px 0 var(--ink);border:1.5px solid var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.dark{background:var(--ink);color:#fff;box-shadow:none;border-color:var(--ink)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;padding:70px 0 90px}
+h1{font-weight:900;letter-spacing:-.045em;line-height:.95;font-size:clamp(60px,9.5vw,128px);margin:0 0 24px}
+.lead{font-size:clamp(20px,2.2vw,26px);color:var(--ink);max-width:520px;margin:0 0 34px;line-height:1.35}
+.free{margin-left:18px;color:var(--mute);font-size:17px;font-weight:600}
+.circ{position:relative;width:min(100%,430px);aspect-ratio:1;margin:0 auto}
+.circ::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ink);transform:translate(10px,10px)}
+.circ div{position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,var(--y),var(--m));border:2px solid var(--ink);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;line-height:1}
+.circ b{display:block;font-weight:900;font-size:clamp(46px,7.2vw,86px);letter-spacing:-.05em}
+.circ span{display:block;font-weight:700;font-size:clamp(15px,1.9vw,22px);margin:0 0 10px}
+.strip{background:linear-gradient(90deg,var(--y),var(--m));padding:26px 0}
+.strip .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.strip p{margin:0;font-size:clamp(20px,2.6vw,30px);font-weight:500}
+section.s{padding:90px 0 20px;text-align:center}
+h2{font-weight:900;letter-spacing:-.04em;line-height:1.02;font-size:clamp(36px,5.5vw,64px);margin:0 0 46px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;text-align:center}
+.num{width:84px;height:84px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:38px;background:linear-gradient(135deg,var(--y),var(--m));border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.steps h3{margin:0 0 6px;font-size:28px;letter-spacing:-.02em}.steps p{margin:0;color:var(--mute);font-size:19px}
+.win{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:6px}
+.w{border-radius:32px;padding:38px 28px;text-align:left}.w:nth-child(1){background:#FBF8D3}.w:nth-child(2){background:#D9F7EE}.w:nth-child(3){background:#EFEFF6}
+.w b{display:block;font-size:30px;letter-spacing:-.03em;line-height:1.05;margin-bottom:10px}.w>span{color:var(--mute);font-size:19px}
+.idea{padding:100px 0 30px;text-align:center}
+.idea p{font-weight:800;letter-spacing:-.035em;line-height:1.08;font-size:clamp(30px,4.6vw,56px);max-width:900px;margin:0 auto}
+.cta{padding:90px 0}
+.cta .box{background:linear-gradient(120deg,var(--y),var(--m));border-radius:44px;padding:70px 30px;text-align:center;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.cta h2{margin-bottom:26px;font-size:clamp(40px,7vw,86px)}
+.stu{display:block;margin-top:22px;color:var(--ink);font-weight:700;font-size:17px}
+footer{padding:10px 0 48px;color:var(--mute);font-size:16px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}footer a{color:var(--ink);font-weight:700}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding:40px 0 60px}.steps,.win{grid-template-columns:1fr}.free{display:block;margin:14px 0 0}.pill{padding-left:20px}.logo{font-size:19px}.btn.nav-b{display:none}.circ{margin-top:20px}}
 </style></head><body>
-<nav><div class="wrap"><div class="logo">Qnect Rewind</div><div class="lang"><button id="b-es" onclick="setL('es')">ES</button><button id="b-en" onclick="setL('en')">EN</button></div></div></nav>
-<header class="hero"><div class="wrap">
-<h1><span data-l="es">Te<br><i>retamos.</i></span><span data-l="en">We<br><i>challenge</i><br>you.</span></h1>
-<div class="nums"><span><b>6</b><span data-l="es">estudiantes</span><span data-l="en">students</span></span><span><b>7</b><span data-l="es">días</span><span data-l="en">days</span></span><span><b>1</b><span data-l="es">tráiler</span><span data-l="en">trailer</span></span></div>
-<a class="btn" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Acepto el reto</span><span data-l="en">I accept</span> <span>→</span></a><span class="free"><span data-l="es">Primera ronda gratis.</span><span data-l="en">First round is free.</span></span>
-</div></header>
+<div class="bg"><div class="nav"><div class="pill"><div class="logo">Qnect Rewind</div><div class="right"><div class="lang"><button id="b-es" onclick="setL('es')">ES</button><button id="b-en" onclick="setL('en')">EN</button></div><a class="btn nav-b" style="padding:10px 22px;font-size:16px" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Acepto el reto</span><span data-l="en">I accept</span></a></div></div></div>
+<div class="wrap"><header class="hero"><div>
+<h1><span data-l="es">Te<br>retamos.</span><span data-l="en">We<br>challenge<br>you.</span></h1>
+<p class="lead"><span data-l="es">Un reto gratis de 7 días en equipo para 6 de tus estudiantes.</span><span data-l="en">A free 7-day team challenge for 6 of your students.</span></p>
+<a class="btn" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Acepto el reto</span><span data-l="en">I accept the challenge</span></a><span class="free"><span data-l="es">Primera ronda gratis.</span><span data-l="en">First round is free.</span></span></div>
+<div class="circ"><div><b>6</b><span><span data-l="es">estudiantes</span><span data-l="en">students</span></span><b>7</b><span><span data-l="es">días</span><span data-l="en">days</span></span><b>1</b><span style="margin-bottom:0"><span data-l="es">tráiler</span><span data-l="en">trailer</span></span></div></div></header></div></div>
 
-<section><div class="wrap"><div class="lab"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></div>
-<div class="steps">
-<div class="st"><div class="n">01</div><h3><span data-l="es">Equipo</span><span data-l="en">Team</span></h3><p><span data-l="es">Seis personas. Un capitán.</span><span data-l="en">Six people. One captain.</span></p></div>
-<div class="st"><div class="n">02</div><h3><span data-l="es">Reto</span><span data-l="en">Challenge</span></h3><p><span data-l="es">Un tráiler en español. Siete días.</span><span data-l="en">A trailer in Spanish. Seven days.</span></p></div>
-<div class="st"><div class="n">03</div><h3><span data-l="es">Estreno</span><span data-l="en">Premiere</span></h3><p><span data-l="es">Una azotea en Barcelona. La sala vota.</span><span data-l="en">A Barcelona rooftop. The room votes.</span></p></div>
-<div class="st q"><div class="n">04</div><h3>?</h3><p><span data-l="es">Pronto.</span><span data-l="en">Soon.</span></p></div>
-</div></div></section>
+<div class="strip"><div class="wrap"><p><span data-l="es">Empieza con tu primer reto, hoy.</span><span data-l="en">Start with your first challenge, today.</span></p><a class="btn dark" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Probar con 6 estudiantes</span><span data-l="en">Try it with 6 students</span></a></div></div>
 
-<section class="dark"><div class="wrap"><div class="lab"><span data-l="es">Lo que gana tu academia</span><span data-l="en">What your school wins</span></div>
-<p class="big"><span data-l="es">Más <i>motivación.</i></span><span data-l="en">More <i>motivation.</i></span></p><p class="sm"><span data-l="es">Nadie quiere fallar a su equipo.</span><span data-l="en">Nobody wants to let the team down.</span></p>
-<p class="big"><span data-l="es">Más <i>alumnos.</i></span><span data-l="en">More <i>students.</i></span></p><p class="sm"><span data-l="es">Traen a sus amigos.</span><span data-l="en">They bring their friends.</span></p>
-<p class="big"><span data-l="es">Más <i>diversión.</i></span><span data-l="en">More <i>fun.</i></span></p><p class="sm" style="margin-bottom:0"><span data-l="es">Aprender se vuelve un plan.</span><span data-l="en">Learning becomes a plan.</span></p>
-</div></section>
+<section class="s"><div class="wrap"><h2><span data-l="es">Así funciona</span><span data-l="en">How it works</span></h2>
+<div class="steps"><div><div class="num">1</div><h3><span data-l="es">Equipo</span><span data-l="en">Team</span></h3><p><span data-l="es">Seis personas, un capitán.</span><span data-l="en">Six people, one captain.</span></p></div>
+<div><div class="num">2</div><h3><span data-l="es">Reto</span><span data-l="en">Challenge</span></h3><p><span data-l="es">Un tráiler en español en siete días.</span><span data-l="en">A Spanish trailer in seven days.</span></p></div>
+<div><div class="num">3</div><h3><span data-l="es">Estreno</span><span data-l="en">Premiere</span></h3><p><span data-l="es">Una azotea en Barcelona. La sala vota.</span><span data-l="en">A Barcelona rooftop. The room votes.</span></p></div></div></div></section>
 
-<section><div class="wrap"><div class="lab"><span data-l="es">La idea de fondo</span><span data-l="en">The bigger idea</span></div>
-<p class="uni"><span data-l="es">Los idiomas son solo el <i>primer nivel.</i> Todo lo que funciona mejor en equipo es un reto por abrir.</span><span data-l="en">Languages are just the <i>first level.</i> Anything that works better in a team is a challenge waiting to open.</span></p></div></section>
+<section class="s"><div class="wrap"><h2><span data-l="es">Lo que gana tu academia</span><span data-l="en">What your school wins</span></h2>
+<div class="win"><div class="w"><b><span data-l="es">Más motivación</span><span data-l="en">More motivation</span></b><span><span data-l="es">Nadie quiere fallar a su equipo.</span><span data-l="en">Nobody wants to let the team down.</span></span></div>
+<div class="w"><b><span data-l="es">Más alumnos</span><span data-l="en">More students</span></b><span><span data-l="es">Traen a sus amigos.</span><span data-l="en">They bring their friends.</span></span></div>
+<div class="w"><b><span data-l="es">Más diversión</span><span data-l="en">More fun</span></b><span><span data-l="es">Aprender se vuelve un plan.</span><span data-l="en">Learning becomes a plan.</span></span></div></div></div></section>
 
-<section class="cta"><div class="wrap">
-<h2><span data-l="es"><i>¿Aceptas?</i></span><span data-l="en"><i>Accept?</i></span></h2>
-<a class="btn" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Probar con 6 estudiantes</span><span data-l="en">Try it with 6 students</span> <span>→</span></a><span class="free"><span data-l="es">Primera ronda gratis.</span><span data-l="en">First round is free.</span></span><br>
-<a class="stu" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener"><span data-l="es">Soy estudiante: apuntarme →</span><span data-l="en">I'm a student: sign me up →</span></a>
-</div></section>
+<section class="idea"><div class="wrap"><p><span data-l="es">Los idiomas son solo el primer reto. Todo lo que funciona mejor en equipo puede serlo.</span><span data-l="en">Languages are just the first challenge. Anything that works better in a team can be one.</span></p></div></section>
+
+<section class="cta"><div class="wrap"><div class="box"><h2><span data-l="es">¿Aceptas el reto?</span><span data-l="en">Do you accept?</span></h2><a class="btn dark" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto%3A%206%20estudiantes"><span data-l="es">Probar con 6 estudiantes</span><span data-l="en">Try it with 6 students</span></a><span style="display:block;margin-top:16px;font-weight:600"><span data-l="es">Primera ronda gratis.</span><span data-l="en">First round is free.</span></span><a class="stu" href="https://docs.google.com/forms/d/e/1FAIpQLScXOeq6c4C4i9_yEijvixsbkr7jJKZhcRWjONHpZzEcCaAv_A/viewform" target="_blank" rel="noopener"><span data-l="es">Soy estudiante: apuntarme</span><span data-l="en">I'm a student: sign me up</span></a></div></div></section>
 <footer><div class="wrap"><span><b>Qnect Rewind</b> · Barcelona</span><a href="mailto:collab@qnectrewind.com">collab@qnectrewind.com</a></div></footer>
 <script>
 function setL(l){document.documentElement.lang=l;document.getElementById('b-es').setAttribute('aria-pressed',l==='es');document.getElementById('b-en').setAttribute('aria-pressed',l==='en');try{history.replaceState(null,'','#'+l)}catch(e){}}
