@@ -9,7 +9,7 @@ body{margin:0;min-height:100vh;font-family:"Red Hat Display",system-ui,sans-seri
 .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:10px 22px 40px}
 .scr{display:none;max-width:760px;width:100%;text-align:center;animation:in .5s ease}.scr.on{display:block}
 @keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-h1{font-weight:900;letter-spacing:-.045em;line-height:.95;font-size:clamp(54px,12vw,120px);margin:0 0 18px}
+h1{font-weight:900;letter-spacing:-.045em;line-height:.95;font-size:clamp(60px,14vw,150px);margin:0 0 18px}
 h2{font-weight:900;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,7vw,64px);margin:0 0 12px}
 p{font-size:clamp(17px,2.4vw,22px);color:var(--mute);margin:0 0 22px;line-height:1.35}
 .btn{font:800 20px "Red Hat Display",sans-serif;color:var(--ink);border:2px solid var(--ink);border-radius:99px;padding:15px 34px;background:linear-gradient(100deg,var(--y),var(--m));box-shadow:5px 5px 0 var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
@@ -28,7 +28,7 @@ p{font-size:clamp(17px,2.4vw,22px);color:var(--mute);margin:0 0 22px;line-height
 .win div{border-radius:24px;padding:20px 22px;font-size:18px;color:var(--mute)}.win b{display:block;color:var(--ink);font-size:21px;margin-bottom:4px}
 .win div:nth-child(1){background:#FBF8D0}.win div:nth-child(2){background:#DAF4EC}.win div:nth-child(3){background:#EEF0F6}
 .prog{display:flex;gap:6px;justify-content:center;margin-bottom:22px}.prog i{width:34px;height:6px;border-radius:9px;background:#d8dae2}.prog i.on{background:var(--ink)}
-.small{font-size:15px;color:var(--mute);margin-top:18px}
+.q{width:112px;border-radius:22px;border:2px dashed #b9bcc8;background:#eef0f4;color:#9a9aa8;padding:14px 8px;display:flex;flex-direction:column;gap:4px;font-size:13px}.q b{font-size:20px;font-weight:900}.q.on{border:2px solid var(--ink);background:linear-gradient(135deg,var(--y),var(--m));color:var(--ink);box-shadow:4px 4px 0 var(--ink)}.small{font-size:15px;color:var(--mute);margin-top:18px}
 </style></head><body>
 <div class="top"><span>Qnect Rewind</span><span class="lang"><button id="bes" class="on">ES</button><button id="ben">EN</button></span></div>
 <div class="stage">
@@ -39,18 +39,17 @@ p{font-size:clamp(17px,2.4vw,22px);color:var(--mute);margin:0 0 22px;line-height
 <div class="dots"><svg viewBox="0 0 520 200" id="svg"></svg></div><button class="btn" id="to3" data-t="next"></button></section>
 <section class="scr" id="s3"><div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i></div><h2 data-t="wins"></h2>
 <div class="win"><div><b data-t="w1"></b><span data-t="w1p"></span></div><div><b data-t="w2"></b><span data-t="w2p"></span></div><div><b data-t="w3"></b><span data-t="w3p"></span></div></div>
-<div class="lv"><div class="card"><div class="fc lock" style="position:relative;height:150px;box-shadow:none"><b style="font-size:34px">🔒</b><span data-t="lv2"></span></div></div></div>
-<p data-t="teaser"></p><a class="btn" id="cta" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto" data-t="cta"></a><div class="small">collab@qnectrewind.com</div></section>
+<div class="lv" style="gap:10px"><div class="q on"><b>01</b><span data-t="q1"></span></div><div class="q"><b>02</b><span>???</span></div><div class="q"><b>03</b><span>???</span></div><div class="q"><b>04</b><span>???</span></div><div class="q"><b>∞</b><span>???</span></div></div><p data-t="teaser"></p><a class="btn" id="cta" href="mailto:collab@qnectrewind.com?subject=Acepto%20el%20reto" data-t="cta"></a><div class="small">collab@qnectrewind.com</div></section>
 </div>
 <script>
-var T={es:{h:"Te retamos.",sub:"Nivel 1 de una escalada: aprender idiomas. 30 segundos para ver cómo es.",play:"Jugar",free:"Primera ronda gratis",l1:"Nivel 1: Idiomas",l1p:"Toca las 3 cartas.",next:"Siguiente",
+var T={es:{h:"Te retamos.",sub:"Entra en la liga. Completa misiones. Sube la tabla. Tu equipo contra el resto.",play:"Entrar en la liga",free:"Primera ronda gratis",l1:"Misión 01",l1p:"La primera misión de la liga. Toca las 3 cartas para formar tu equipo.",next:"Siguiente",
 c:[["Equipo","6 personas, una capitana."],["Reto","Un tráiler en español en 7 días."],["Estreno","Una azotea en Barcelona. La sala vota."]],cn:["Equipo","Reto","Estreno"],
-compete:"Compiten.",connect:"Acaban siendo un equipo.",wins:"Lo que gana tu academia",w1:"Más motivación",w1p:"Nadie quiere fallar a su equipo.",w2:"Más alumnos",w2p:"Traen a sus amigos.",w3:"Contenido",w3p:"Tráileres que tu escuela puede compartir.",
-lv2:"Nivel 2 bloqueado",teaser:"Nivel 2 se desbloquea cuando juegues el Nivel 1.",cta:"Acepto el reto"},
-en:{h:"We challenge you.",sub:"Level 1 of a climb: learning languages. 30 seconds to see how it works.",play:"Play",free:"First round free",l1:"Level 1: Languages",l1p:"Tap the 3 cards.",next:"Next",
+compete:"Compiten.",connect:"Acaban siendo un equipo.",wins:"Lo que gana tu escuela",w1:"Más motivación",w1p:"Nadie quiere fallar a su equipo.",w2:"Más alumnos",w2p:"Traen a sus amigos.",w3:"Contenido",w3p:"Tráileres que tu escuela puede compartir.",
+q1:"Misión 01 · El tráiler",lv2:"x",teaser:"La liga es más grande que un idioma. Completa la Misión 01 y se abre el mapa.",cta:"Acepto el reto"},
+en:{h:"We challenge you.",sub:"Join the league. Complete quests. Climb the table. Your team against the rest.",play:"Enter the league",free:"First round free",l1:"Quest 01",l1p:"The first quest of the league. Tap the 3 cards to form your team.",next:"Next",
 c:[["Team","6 people, one captain."],["Challenge","A Spanish trailer in 7 days."],["Premiere","A Barcelona rooftop. The room votes."]],cn:["Team","Challenge","Premiere"],
 compete:"They compete.",connect:"They end up a team.",wins:"What your school wins",w1:"More motivation",w1p:"Nobody wants to let the team down.",w2:"More students",w2p:"They bring their friends.",w3:"Content",w3p:"Trailers your school can share.",
-lv2:"Level 2 locked",teaser:"Level 2 unlocks when you play Level 1.",cta:"I accept the challenge"}};
+q1:"Quest 01 · The trailer",lv2:"x",teaser:"The league is bigger than one language. Complete Quest 01 and the map opens.",cta:"I accept the challenge"}};
 var L=(navigator.language||"es").slice(0,2)=="es"?"es":"en";if(location.hash=="#en")L="en";if(location.hash=="#es")L="es";
 var flipped=0;function $(i){return document.getElementById(i)}
 function render(){document.documentElement.lang=L;var t=T[L];document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=t[e.dataset.t]});
